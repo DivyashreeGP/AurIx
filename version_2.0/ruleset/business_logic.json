@@ -1,0 +1,47 @@
+[
+  {
+    "id": "BUSINESS-LOGIC-BYPASS-001",
+    "description": "Business logic flaw allowing bypass",
+    "vulnerabilities": "LOGIC",
+    "pattern": "if.*==.*True|if.*==.*False",
+    "pattern_not": ["and|or"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "INCONSISTENT-STATE-001",
+    "description": "Inconsistent state management in business logic",
+    "vulnerabilities": "LOGIC",
+    "pattern": "status\\s*=|state\\s*=",
+    "pattern_not": ["transaction|commit|rollback"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "DOUBLE-CHARGE-LOGIC-001",
+    "description": "Double charging vulnerability in billing logic",
+    "vulnerabilities": "LOGIC",
+    "pattern": "charge|payment|billing",
+    "pattern_not": ["idempotent|idempotency|transaction"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "ACCOUNT-ENUMERATION-001",
+    "description": "Account enumeration via different error messages",
+    "vulnerabilities": "LOGIC",
+    "pattern": "User not found|Invalid password|Account exists",
+    "pattern_not": ["generic.*error|error.*generic"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "PRICE-BYPASS-001",
+    "description": "Price can be modified by user input",
+    "vulnerabilities": "LOGIC",
+    "pattern": "price\\s*=.*request|amount\\s*=.*request",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  }
+]

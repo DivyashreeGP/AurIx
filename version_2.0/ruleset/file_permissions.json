@@ -1,0 +1,47 @@
+[
+  {
+    "id": "IMPROPER-FILE-PERM-001",
+    "description": "File created with overly permissive permissions",
+    "vulnerabilities": "PERM",
+    "pattern": "open\\(.*0o777|chmod\\(.*0o777|0777",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "TEMP-FILE-INSECURE-001",
+    "description": "Insecure temporary file creation",
+    "vulnerabilities": "PERM",
+    "pattern": "tempfile\\.mktemp\\(|temp_file\\s*=",
+    "pattern_not": ["mkstemp|NamedTemporaryFile"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "WORLD-READABLE-FILE-001",
+    "description": "Sensitive file world-readable",
+    "vulnerabilities": "PERM",
+    "pattern": "open\\(|chmod\\(",
+    "pattern_not": ["0o600|0o640|0o700"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "FILE-UPLOAD-NO-VALIDATION-001",
+    "description": "File upload without validation",
+    "vulnerabilities": "PERM",
+    "pattern": "request\\.files|FileField|upload",
+    "pattern_not": ["validate|allowed|extension"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "PATH-TRAVERSAL-UPLOAD-001",
+    "description": "Path traversal in file upload",
+    "vulnerabilities": "PATH",
+    "pattern": "filename.*request|filename.*upload",
+    "pattern_not": ["basename|normalize|secure"],
+    "find_var": "",
+    "remediation": []
+  }
+]

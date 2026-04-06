@@ -1,0 +1,29 @@
+[
+  {
+    "id": "REGEX-REDOS-001",
+    "description": "Regular expression denial of service (ReDoS)",
+    "vulnerabilities": "DOSA",
+    "pattern": "re\\.compile\\(|re\\.search\\(|re\\.match\\(|re\\.findall\\(",
+    "pattern_not": [],
+    "find_var": "input\\(|request\\.",
+    "remediation": []
+  },
+  {
+    "id": "REGEX-CATASTROPHIC-001",
+    "description": "Catastrophic backtracking in regex",
+    "vulnerabilities": "DOSA",
+    "pattern": "\\(.*\\*\\+|\\(.*\\+\\*|\\(.*\\?\\+|\\+\\{|\\*\\{",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "REDOS-NESTED-QUANTIFIER-001",
+    "description": "ReDoS via nested quantifiers",
+    "vulnerabilities": "DOSA",
+    "pattern": "\\(\\w*\\+\\)\\+|\\(\\w*\\*\\)\\*|\\(\\w*\\+\\)\\*|\\(\\w*\\*\\)\\+",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  }
+]

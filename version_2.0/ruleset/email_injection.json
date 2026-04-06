@@ -1,0 +1,29 @@
+[
+  {
+    "id": "EMAIL-HEADER-INJECTION-001",
+    "description": "Email header injection via sendmail",
+    "vulnerabilities": "INJC",
+    "pattern": "send_mail\\(|smtplib\\.SMTP\\(|email\\.mime|Message\\(",
+    "pattern_not": [],
+    "find_var": "input\\(|request\\.(args|POST|GET|files|form|data)",
+    "remediation": []
+  },
+  {
+    "id": "CRLF-INJECTION-001",
+    "description": "CRLF injection in HTTP headers",
+    "vulnerabilities": "INJC",
+    "pattern": "\\\\n|\\\\r|\\\\r\\\\n",
+    "pattern_not": ["repr\\(|encode\\(|escape\\("],
+    "find_var": "input\\(|request\\.",
+    "remediation": []
+  },
+  {
+    "id": "CRLF-LOG-INJECTION-001",
+    "description": "CRLF injection in log files",
+    "vulnerabilities": "INJC",
+    "pattern": "logging\\.info\\(|logger\\.warning\\(|print\\(",
+    "pattern_not": [],
+    "find_var": "input\\(|request\\.",
+    "remediation": []
+  }
+]

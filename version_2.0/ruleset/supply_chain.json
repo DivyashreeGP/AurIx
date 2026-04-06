@@ -1,0 +1,47 @@
+[
+  {
+    "id": "DEPENDENCY-CONFUSION-001",
+    "description": "Dependency confusion attack vulnerability",
+    "vulnerabilities": "SUPPLY",
+    "pattern": "import\\s+\\w+|from\\s+\\w+",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "UNVERIFIED-PACKAGE-SIGNATURE-001",
+    "description": "Package signature not verified",
+    "vulnerabilities": "SUPPLY",
+    "pattern": "pip install|install_requires",
+    "pattern_not": ["verify|signature|hash"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "OUTDATED-CRITICAL-001",
+    "description": "Using package with known critical vulnerability",
+    "vulnerabilities": "SUPPLY",
+    "pattern": "version.*=|==.*2020|==.*2019",
+    "pattern_not": ["2023|2024|2025"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "UNPINNED-DEPENDENCY-001",
+    "description": "Dependencies not pinned to specific version",
+    "vulnerabilities": "SUPPLY",
+    "pattern": "install_requires\\s*=|requirements.*=",
+    "pattern_not": ["==|>=.*,<"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "BUILD-SCRIPT-EXECUTION-001",
+    "description": "Setup.py or build script allows arbitrary code execution",
+    "vulnerabilities": "SUPPLY",
+    "pattern": "setup\\.py|build\\.py|install\\.py",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  }
+]

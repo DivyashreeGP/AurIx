@@ -1,0 +1,47 @@
+[
+  {
+    "id": "HTTPS-NOT-ENFORCED-001",
+    "description": "HTTPS not enforced",
+    "vulnerabilities": "MISCFG",
+    "pattern": "http://|HTTP_HOST|request\\.environ",
+    "pattern_not": ["https|HTTPS|force_https"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "CSV-INJECTION-001",
+    "description": "CSV injection via formula",
+    "vulnerabilities": "INJC",
+    "pattern": "to_csv|export|write.*csv",
+    "pattern_not": ["escape|sanitize"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "WEAK-SSL-PROTOCOL-001",
+    "description": "Weak SSL protocol version",
+    "vulnerabilities": "CRYF",
+    "pattern": "ssl\\.PROTOCOL_SSL|PROTOCOL_TLS|PROTOCOL_TLSv1",
+    "pattern_not": ["PROTOCOL_TLS_CLIENT|TLSv1_2|TLSv1_3"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "INSECURE-CACHE-HEADERS-001",
+    "description": "Insecure cache control headers",
+    "vulnerabilities": "MISCFG",
+    "pattern": "Cache-Control|cache_control",
+    "pattern_not": ["no-cache|no-store|private"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "CRON-JOB-INSECURE-001",
+    "description": "Cron job without proper security",
+    "vulnerabilities": "MISCFG",
+    "pattern": "schedule.*job|cron|APScheduler",
+    "pattern_not": ["authenticate|authorize"],
+    "find_var": "",
+    "remediation": []
+  }
+]

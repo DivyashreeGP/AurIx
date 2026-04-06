@@ -1,0 +1,752 @@
+{
+    "detect.py": [
+        {
+            "line": 35,
+            "rules": [
+                "TUPLE-DIM-001"
+            ],
+            "categories": [
+                "SDIF"
+            ],
+            "code": "chain.append(f.id); chain = tuple(reversed(chain))"
+        },
+        {
+            "line": 64,
+            "rules": [
+                "DEBUG-TRUE-001"
+            ],
+            "categories": [
+                "SECM"
+            ],
+            "code": "# app.run(debug=True)"
+        },
+        {
+            "line": 151,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(path, \"r\", encoding=\"utf-8\", errors=\"ignore\") as f:"
+        },
+        {
+            "line": 204,
+            "rules": [
+                "MKDIR-001"
+            ],
+            "categories": [
+                "SDIF"
+            ],
+            "code": "out_path = Path(out_path); out_path.parent.mkdir(parents=True, exist_ok=True)"
+        }
+    ],
+    "fix_rules.py": [
+        {
+            "line": 18,
+            "rules": [
+                "DATA-DATABASE-001",
+                "MECHANIZE-BROWSER-001",
+                "REQUEST-ARGS-001",
+                "REQUEST-HEADER-GET-001",
+                "REQUEST-ARGS_GET-009",
+                "FILTER-READ-001",
+                "USERID-001",
+                "HTTP-MIDDLEWARE-001",
+                "ASYNC-RESULT-001",
+                "TENSORFLOW-CONVERTER-001",
+                "PEEK-001",
+                "REQUEST-META-GET-001",
+                "CGI-HANDLER-001",
+                "REQUEST-001",
+                "REQUEST-002",
+                "CBOR2-001",
+                "OS-REALPATH-001",
+                "REQUESTS-GET-VALIDATION-002",
+                "BOTTLE-REQUEST-001",
+                "BINASCII-001",
+                "MAILCAP-001",
+                "CTYPES-CDLL-002",
+                "TWEEPY-OAUTHHANDLER-001",
+                "FTPLIB-FTP-001"
+            ],
+            "categories": [
+                "BRAC",
+                "IDAF,SSRF",
+                "INJC",
+                "SDIF",
+                "SECM"
+            ],
+            "code": "# Turn \\VAR_PLACEHOLDER -> VAR_PLACEHOLDER (causes \\V error)"
+        },
+        {
+            "line": 19,
+            "rules": [
+                "INT-INPUT-003",
+                "INPUT-003",
+                "DATA-DATABASE-001",
+                "MECHANIZE-BROWSER-001",
+                "REQUEST-ARGS-001",
+                "SESSION-003",
+                "REQUEST-HEADER-GET-001",
+                "REQUEST-ARGS_GET-008",
+                "REQUEST-ARGS_GET-009",
+                "REQUEST-JSON-003",
+                "REQUEST-ARGS-GET-017",
+                "REQUEST-ARGS-GET-023",
+                "URL-PARSE-003",
+                "JSON-LOADS-003",
+                "FILTER-READ-001",
+                "USERID-001",
+                "HTTP-MIDDLEWARE-001",
+                "ASYNC-RESULT-001",
+                "TENSORFLOW-CONVERTER-001",
+                "PEEK-001",
+                "REQUEST-META-GET-001",
+                "CGI-HANDLER-001",
+                "REQUEST-001",
+                "REQUEST-002",
+                "CBOR2-001",
+                "OS-ENV-GET-003",
+                "OS-REALPATH-001",
+                "REQUESTS-GET-VALIDATION-002",
+                "BOTTLE-REQUEST-001",
+                "URLLIB-REQUEST-002",
+                "BINASCII-001",
+                "MAILCAP-001",
+                "CTYPES-CDLL-002",
+                "TWEEPY-OAUTHHANDLER-001",
+                "FTPLIB-FTP-001"
+            ],
+            "categories": [
+                "BRAC",
+                "IDAF,SSRF",
+                "INJC",
+                "INJC, SLMF",
+                "INSD, INJC",
+                "SDIF",
+                "SECM"
+            ],
+            "code": "p = p.replace(r\"\\VAR_PLACEHOLDER\", \"VAR_PLACEHOLDER\")"
+        }
+    ],
+    "ruleset_test_input.py": [
+        {
+            "line": 4,
+            "rules": [
+                "ELEMENTTREE-CONFIGURATION-001"
+            ],
+            "categories": [
+                "SECM"
+            ],
+            "code": "import xml.etree.ElementTree as ET"
+        },
+        {
+            "line": 10,
+            "rules": [
+                "TARFILE-VERSION-001"
+            ],
+            "categories": [
+                "SDIF"
+            ],
+            "code": "import tarfile"
+        },
+        {
+            "line": 18,
+            "rules": [
+                "SUBPROCESS-001",
+                "SUBPROCESS-SHELL-001",
+                "SUBPROC-SHELL-001"
+            ],
+            "categories": [
+                "INJC"
+            ],
+            "code": "subprocess.run(\"ls -la\", shell=True)"
+        },
+        {
+            "line": 21,
+            "rules": [
+                "REQUEST-ARGS-GET-001",
+                "REQUEST-ARGS-GET-020"
+            ],
+            "categories": [
+                "INJC",
+                "SECM"
+            ],
+            "code": "cmd = \"ping \" + request.args.get(\"host\", \"\")"
+        },
+        {
+            "line": 22,
+            "rules": [
+                "SUBPROCESS-002"
+            ],
+            "categories": [
+                "INJC"
+            ],
+            "code": "subprocess.Popen(cmd)"
+        },
+        {
+            "line": 25,
+            "rules": [
+                "PICKLE-LOADS-001",
+                "REQUEST-ARGS-GET-004",
+                "ENCODE-DECODE-001",
+                "PICKLE-FAILURE-001"
+            ],
+            "categories": [
+                "CRYF",
+                "SDIF"
+            ],
+            "code": "data = pickle.loads(request.args.get(\"data\", \"\").encode())"
+        },
+        {
+            "line": 28,
+            "rules": [
+                "MARSHAL-LOADS-001",
+                "REQUEST-ARGS-GET-004",
+                "ENCODE-DECODE-001"
+            ],
+            "categories": [
+                "CRYF",
+                "SDIF"
+            ],
+            "code": "x = marshal.loads(request.args.get(\"blob\", \"\").encode())"
+        },
+        {
+            "line": 32,
+            "rules": [
+                "YAML-LOAD-001",
+                "YAML-LOAD-001"
+            ],
+            "categories": [
+                "INJC, SDIF",
+                "SDIF"
+            ],
+            "code": "obj = yaml.load(content)"
+        },
+        {
+            "line": 39,
+            "rules": [
+                "LXML-FROMSTRING-001"
+            ],
+            "categories": [
+                "SDIF"
+            ],
+            "code": "root2 = lxml.etree.fromstring(xml_data)"
+        },
+        {
+            "line": 43,
+            "rules": [
+                "REQUESTS-VERIFY-FALSE-001",
+                "REQUESTS-005"
+            ],
+            "categories": [
+                "IDAF,SSRF",
+                "SECM"
+            ],
+            "code": "requests.get(url, verify=False)"
+        },
+        {
+            "line": 46,
+            "rules": [
+                "REQUEST-ARGS-GET-004",
+                "SSRF-REQUESTS-001"
+            ],
+            "categories": [
+                "CRYF",
+                "INJC"
+            ],
+            "code": "requests.post(request.args.get(\"url\"))"
+        },
+        {
+            "line": 50,
+            "rules": [
+                "REQUEST-ARGS-GET-004",
+                "URLLIB-OPEN-001",
+                "SSRF-URLLIB-001"
+            ],
+            "categories": [
+                "CRYF",
+                "INJC",
+                "SDIF"
+            ],
+            "code": "urllib.request.urlopen(request.args.get(\"url\"))"
+        },
+        {
+            "line": 53,
+            "rules": [
+                "REQUEST-ARGS-GET-004",
+                "SSRF-HTTPX-001"
+            ],
+            "categories": [
+                "CRYF",
+                "INJC"
+            ],
+            "code": "httpx.get(request.args.get(\"url\"))"
+        },
+        {
+            "line": 57,
+            "rules": [
+                "REQUEST-ARGS-GET-004",
+                "JWT-DECODE-002"
+            ],
+            "categories": [
+                "CRYF"
+            ],
+            "code": "jwt.decode(request.args.get(\"token\", \"\"), options={\"verify_signature\": False})"
+        },
+        {
+            "line": 61,
+            "rules": [
+                "EBC-MODE-001"
+            ],
+            "categories": [
+                "CRYF"
+            ],
+            "code": "cipher = AES.new(b\"SECRETSECRETSECRETS!\", AES.MODE_ECB)"
+        },
+        {
+            "line": 64,
+            "rules": [
+                "RANDOM-CHOICE-001",
+                "RANDOM-FOR-SECURITY-001"
+            ],
+            "categories": [
+                "CRYF",
+                "CRYP"
+            ],
+            "code": "token = random.choice(\"abcdef123456\")"
+        },
+        {
+            "line": 67,
+            "rules": [
+                "SSL-UNVERIFIED-CONTEXT-001",
+                "CREATE-UNVERIFIED-CONTEXT-001"
+            ],
+            "categories": [
+                "IDAF",
+                "SECM"
+            ],
+            "code": "ssl_context = ssl._create_unverified_context()"
+        },
+        {
+            "line": 71,
+            "rules": [
+                "ZIP-EXTRACT-001"
+            ],
+            "categories": [
+                "SDIF"
+            ],
+            "code": "tar.extractall(\"extract_here\")"
+        },
+        {
+            "line": 74,
+            "rules": [
+                "ZIP-DIM-001"
+            ],
+            "categories": [
+                "SDIF"
+            ],
+            "code": "z = zipfile.ZipFile(\"evil.zip\")"
+        },
+        {
+            "line": 75,
+            "rules": [
+                "ZIP-EXTRACT-001"
+            ],
+            "categories": [
+                "SDIF"
+            ],
+            "code": "z.extractall(\"extract_zip\")"
+        },
+        {
+            "line": 81,
+            "rules": [
+                "SET-COOKIE-001",
+                "SET-COOKIE-MISSING-FLAGS-001",
+                "SET-COOKIE-001"
+            ],
+            "categories": [
+                "CRYF",
+                "SECM"
+            ],
+            "code": "resp.set_cookie(\"sessionid\", \"12345\")   # no httponly, secure, samesite"
+        },
+        {
+            "line": 87,
+            "rules": [
+                "CORS-ALLOW-ALL-001"
+            ],
+            "categories": [
+                "SECM"
+            ],
+            "code": "response.headers[\"Access-Control-Allow-Origin\"] = \"*\""
+        }
+    ],
+    "test_input.py": [
+        {
+            "line": 8,
+            "rules": [
+                "REQUEST-ARGS_GET-005"
+            ],
+            "categories": [
+                "Broken Access Control"
+            ],
+            "code": "response = make_response(f'<h1>Hello {name}</h1>')"
+        },
+        {
+            "line": 9,
+            "rules": [
+                "REQUEST-ARGS_GET-006"
+            ],
+            "categories": [
+                "Broken Access Control"
+            ],
+            "code": "return response"
+        },
+        {
+            "line": 12,
+            "rules": [
+                "DEBUG-TRUE-001"
+            ],
+            "categories": [
+                "SECM",
+                "Security Misconfiguration"
+            ],
+            "code": "app.run(debug=True)"
+        }
+    ],
+    "validate_rules.py": [
+        {
+            "line": 9,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "data = json.load(open(path, encoding=\"utf-8\"))"
+        }
+    ],
+    "version_1.0\\materials\\create_snippet.py": [
+        {
+            "line": 18,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "for i,line in enumerate(open(file_path)):"
+        },
+        {
+            "line": 26,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(file_out, 'w') as f1:"
+        },
+        {
+            "line": 37,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(list_file_path, 'wb') as list_file:"
+        }
+    ],
+    "version_1.0\\materials\\code_test\\01_code.py": [
+        {
+            "line": 4,
+            "rules": [
+                "YAML-LOAD-001",
+                "YAML-LOAD-001"
+            ],
+            "categories": [
+                "INJC, SDIF",
+                "SDIF"
+            ],
+            "code": "prod_and_qt = yaml.load(yaml_payload)"
+        }
+    ],
+    "version_1.0\\materials\\code_test\\02_code.py": [
+        {
+            "line": 7,
+            "rules": [
+                "REQUEST-ARGS_GET-005"
+            ],
+            "categories": [
+                "Broken Access Control"
+            ],
+            "code": "response = make_response(f\"Hello {username}\")"
+        },
+        {
+            "line": 8,
+            "rules": [
+                "REQUEST-ARGS_GET-006"
+            ],
+            "categories": [
+                "Broken Access Control"
+            ],
+            "code": "return response"
+        }
+    ],
+    "version_1.0\\script_py\\convert_json_to_txt.py": [
+        {
+            "line": 7,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "file=json.load(open(input_file))"
+        },
+        {
+            "line": 23,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(output_file,'w') as outfile:"
+        },
+        {
+            "line": 28,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "for i, line in enumerate(open(output_file)):"
+        },
+        {
+            "line": 38,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(output_file, 'w') as f:"
+        }
+    ],
+    "version_1.0\\script_py\\convert_json_wo_keys.py": [
+        {
+            "line": 12,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "for i, line in enumerate(open(input_file)):"
+        },
+        {
+            "line": 27,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(output_file, 'w') as f:"
+        }
+    ],
+    "version_1.0\\script_py\\preprocessing.py": [
+        {
+            "line": 11,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "for i, line in enumerate(open(input_file)):"
+        },
+        {
+            "line": 33,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(output_file, 'w') as f:"
+        }
+    ],
+    "version_1.0\\script_py\\preprocessing_macos.py": [
+        {
+            "line": 11,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "for i, line in enumerate(open(input_file)):"
+        },
+        {
+            "line": 33,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(output_file, 'w') as f:"
+        }
+    ],
+    "version_1.0\\utils\\convert_to_LF.py": [
+        {
+            "line": 17,
+            "rules": [
+                "SUBPROCESS-001"
+            ],
+            "categories": [
+                "INJC"
+            ],
+            "code": "subprocess.run([\"dos2unix\", filepath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)"
+        }
+    ],
+    "version_2.0\\input\\test_source.py": [
+        {
+            "line": 8,
+            "rules": [
+                "REQUEST-ARGS_GET-005"
+            ],
+            "categories": [
+                "Broken Access Control"
+            ],
+            "code": "response = make_response(f'<h1>Hello {name}</h1>')"
+        },
+        {
+            "line": 9,
+            "rules": [
+                "REQUEST-ARGS_GET-006"
+            ],
+            "categories": [
+                "Broken Access Control"
+            ],
+            "code": "return response"
+        },
+        {
+            "line": 12,
+            "rules": [
+                "DEBUG-TRUE-001"
+            ],
+            "categories": [
+                "SECM",
+                "Security Misconfiguration"
+            ],
+            "code": "app.run(debug=True)"
+        }
+    ],
+    "version_2.0\\script_py\\convertInline.py": [
+        {
+            "line": 13,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(input_file, 'r', encoding='utf-8') as file:"
+        },
+        {
+            "line": 20,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(output_file, 'w', encoding='utf-8') as file:"
+        }
+    ],
+    "version_2.0\\script_py\\preprocessing.py": [
+        {
+            "line": 9,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "for i, line in enumerate(open(input_file)):"
+        },
+        {
+            "line": 33,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(output_file, 'w') as f:"
+        }
+    ],
+    "version_2.0\\script_py\\preprocessing_macos.py": [
+        {
+            "line": 11,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "for i, line in enumerate(open(input_file)):"
+        },
+        {
+            "line": 33,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(output_file, 'w') as f:"
+        }
+    ],
+    "version_2.0\\script_py\\remove_comments.py": [
+        {
+            "line": 17,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(code_file, 'r', encoding='utf-8') as f:"
+        },
+        {
+            "line": 24,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "with open(code_file, 'w', encoding='utf-8') as f:"
+        }
+    ],
+    "version_2.0\\utils\\convert_to_LF.py": [
+        {
+            "line": 17,
+            "rules": [
+                "SUBPROCESS-001"
+            ],
+            "categories": [
+                "INJC"
+            ],
+            "code": "subprocess.run([\"dos2unix\", filepath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)"
+        }
+    ]
+}

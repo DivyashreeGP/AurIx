@@ -1,0 +1,981 @@
+{
+    "ruleset_test_input.py": [
+        {
+            "snippet_number": 1,
+            "original_code": "import subprocess",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": []
+        },
+        {
+            "snippet_number": 2,
+            "original_code": "import requests",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 3,
+            "original_code": "import yaml",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 4,
+            "original_code": "import xml.etree.ElementTree as ET",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SECM"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "ELEMENTTREE-CONFIGURATION-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 5,
+            "original_code": "import lxml.etree",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 6,
+            "original_code": "import httpx",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 7,
+            "original_code": "import pickle",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 8,
+            "original_code": "import marshal",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0005",
+            "details": []
+        },
+        {
+            "snippet_number": 9,
+            "original_code": "import ssl",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0007",
+            "details": []
+        },
+        {
+            "snippet_number": 10,
+            "original_code": "import tarfile",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "TARFILE-VERSION-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 11,
+            "original_code": "import zipfile",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 12,
+            "original_code": "import random",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 13,
+            "original_code": "from flask import Flask, request, make_response",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": []
+        },
+        {
+            "snippet_number": 15,
+            "original_code": "app = Flask(__name__)",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 17,
+            "original_code": "# -------- 1. subprocess shell=True (should trigger SUBPROC-SHELL-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": []
+        },
+        {
+            "snippet_number": 18,
+            "original_code": "subprocess.run(\"ls -la\", shell=True)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "INJC"
+            ],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": [
+                {
+                    "rule_id": "SUBPROCESS-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SUBPROCESS-SHELL-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SUBPROC-SHELL-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 20,
+            "original_code": "# -------- 2. subprocess with concat (should trigger SUBPROC-CMD-CONCAT-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": []
+        },
+        {
+            "snippet_number": 21,
+            "original_code": "cmd = \"ping \" + request.args.get(\"host\", \"\")",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "INJC",
+                "SECM"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "REQUEST-ARGS-GET-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "REQUEST-ARGS-GET-020",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 22,
+            "original_code": "subprocess.Popen(cmd)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "INJC"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "SUBPROCESS-002",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 24,
+            "original_code": "# -------- 3. Insecure pickle deserialization (PICKLE-LOADS-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": []
+        },
+        {
+            "snippet_number": 25,
+            "original_code": "data = pickle.loads(request.args.get(\"data\", \"\").encode())",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "PICKLE-LOADS-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "REQUEST-ARGS-GET-004",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "ENCODE-DECODE-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "PICKLE-FAILURE-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 27,
+            "original_code": "# -------- 4. Marshal loads (MARSHAL-LOADS-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 28,
+            "original_code": "x = marshal.loads(request.args.get(\"blob\", \"\").encode())",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "MARSHAL-LOADS-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "REQUEST-ARGS-GET-004",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "ENCODE-DECODE-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 30,
+            "original_code": "# -------- 5. Unsafe YAML load without SafeLoader (YAML-LOAD-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": []
+        },
+        {
+            "snippet_number": 31,
+            "original_code": "content = request.args.get(\"yaml\", \"\")",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 32,
+            "original_code": "obj = yaml.load(content)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "INJC, SDIF",
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "YAML-LOAD-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "YAML-LOAD-001",
+                    "vulnerabilities": [
+                        "INJC, SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 34,
+            "original_code": "# -------- 6. XXE via xml.etree (XML-ETREE-FROMSTRING-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": []
+        },
+        {
+            "snippet_number": 35,
+            "original_code": "xml_data = request.args.get(\"xml\", \"\")",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 36,
+            "original_code": "root = ET.fromstring(xml_data)",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 38,
+            "original_code": "# -------- 7. XXE via lxml (LXML-FROMSTRING-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 39,
+            "original_code": "root2 = lxml.etree.fromstring(xml_data)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "LXML-FROMSTRING-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 41,
+            "original_code": "# -------- 8. requests verify=False (REQUESTS-VERIFY-FALSE-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": []
+        },
+        {
+            "snippet_number": 42,
+            "original_code": "url = request.args.get(\"url\", \"\")",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 43,
+            "original_code": "requests.get(url, verify=False)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "IDAF,SSRF",
+                "SECM"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "REQUESTS-VERIFY-FALSE-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "REQUESTS-005",
+                    "vulnerabilities": [
+                        "IDAF,SSRF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 45,
+            "original_code": "# -------- 9. SSRF via requests (SSRF-REQUESTS-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 46,
+            "original_code": "requests.post(request.args.get(\"url\"))",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "INJC"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "REQUEST-ARGS-GET-004",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SSRF-REQUESTS-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 48,
+            "original_code": "# -------- 10. SSRF via urllib (SSRF-URLLIB-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 49,
+            "original_code": "import urllib.request",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0001",
+            "details": []
+        },
+        {
+            "snippet_number": 50,
+            "original_code": "urllib.request.urlopen(request.args.get(\"url\"))",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "INJC",
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "REQUEST-ARGS-GET-004",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "URLLIB-OPEN-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SSRF-URLLIB-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 52,
+            "original_code": "# -------- 11. SSRF via httpx (SSRF-HTTPX-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 53,
+            "original_code": "httpx.get(request.args.get(\"url\"))",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "INJC"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "REQUEST-ARGS-GET-004",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SSRF-HTTPX-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 55,
+            "original_code": "# -------- 12. Insecure JWT decode (JWT-DECODE-NOVERIFY-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 56,
+            "original_code": "import jwt",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0001",
+            "details": []
+        },
+        {
+            "snippet_number": 57,
+            "original_code": "jwt.decode(request.args.get(\"token\", \"\"), options={\"verify_signature\": False})",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "REQUEST-ARGS-GET-004",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "JWT-DECODE-002",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 59,
+            "original_code": "# -------- 13. AES ECB mode (CRYP) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 60,
+            "original_code": "from Cryptodome.Cipher import AES",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 61,
+            "original_code": "cipher = AES.new(b\"SECRETSECRETSECRETS!\", AES.MODE_ECB)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "EBC-MODE-001",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 63,
+            "original_code": "# -------- 14. Using random() for crypto (RANDOM-FOR-SECURITY-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": []
+        },
+        {
+            "snippet_number": 64,
+            "original_code": "token = random.choice(\"abcdef123456\")",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "CRYP"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "RANDOM-CHOICE-001",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "RANDOM-FOR-SECURITY-001",
+                    "vulnerabilities": [
+                        "CRYP"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 66,
+            "original_code": "# -------- 15. Unverified SSL context (SSL-UNVERIFIED-CONTEXT-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": []
+        },
+        {
+            "snippet_number": 67,
+            "original_code": "ssl_context = ssl._create_unverified_context()",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "IDAF",
+                "SECM"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "SSL-UNVERIFIED-CONTEXT-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "CREATE-UNVERIFIED-CONTEXT-001",
+                    "vulnerabilities": [
+                        "IDAF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 69,
+            "original_code": "# -------- 16. Tarfile extractall (TARFILE-EXTRACTALL-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 70,
+            "original_code": "tar = tarfile.open(\"evil.tar\")",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": []
+        },
+        {
+            "snippet_number": 71,
+            "original_code": "tar.extractall(\"extract_here\")",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0008",
+            "details": [
+                {
+                    "rule_id": "ZIP-EXTRACT-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 73,
+            "original_code": "# -------- 17. Zipfile extractall (ZIPFILE-EXTRACTALL-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0007",
+            "details": []
+        },
+        {
+            "snippet_number": 74,
+            "original_code": "z = zipfile.ZipFile(\"evil.zip\")",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": [
+                {
+                    "rule_id": "ZIP-DIM-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 75,
+            "original_code": "z.extractall(\"extract_zip\")",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "ZIP-EXTRACT-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 77,
+            "original_code": "# -------- 18. Missing cookie security flags (SET-COOKIE-MISSING-FLAGS-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": []
+        },
+        {
+            "snippet_number": 78,
+            "original_code": "@app.route(\"/setcookie\")",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 79,
+            "original_code": "def cookie():",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 80,
+            "original_code": "resp = make_response(\"ok\")",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 81,
+            "original_code": "resp.set_cookie(\"sessionid\", \"12345\")   # no httponly, secure, samesite",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "SECM"
+            ],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": [
+                {
+                    "rule_id": "SET-COOKIE-001",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SET-COOKIE-MISSING-FLAGS-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SET-COOKIE-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 82,
+            "original_code": "return resp",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 84,
+            "original_code": "# -------- 19. CORS allow * (CORS-ALLOW-ALL-001) --------",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": []
+        },
+        {
+            "snippet_number": 85,
+            "original_code": "@app.after_request",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 86,
+            "original_code": "def apply_cors(response):",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 87,
+            "original_code": "response.headers[\"Access-Control-Allow-Origin\"] = \"*\"",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SECM"
+            ],
+            "comments": [],
+            "execution_time": "0.0006",
+            "details": [
+                {
+                    "rule_id": "CORS-ALLOW-ALL-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 88,
+            "original_code": "return response",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0006",
+            "details": []
+        }
+    ]
+}

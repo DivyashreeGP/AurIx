@@ -1,0 +1,41 @@
+# ---------------------------------
+# Python
+# ---------------------------------
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual Environments
+venv/
+myenv/
+myenv1/
+backend/myenv1/
+vscode_extension/myenv/
+
+# ---------------------------------
+# Node / VS Code Extension
+# (Correct folder paths)
+# ---------------------------------
+vscode_extension/vs-extension/node_modules/
+vscode_extension/vs-extension/out/
+vscode_extension/vs-extension/.vsix/
+
+# Build artifacts
+dist/
+out/
+
+# ---------------------------------
+# VS Code editor files
+# ---------------------------------
+.vscode/
+
+# ---------------------------------
+# Logs
+# ---------------------------------
+*.log
+
+# ---------------------------------
+# OS Files
+# ---------------------------------
+.DS_Store
+Thumbs.db

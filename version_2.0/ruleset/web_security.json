@@ -1,0 +1,56 @@
+[
+  {
+    "id": "CORS-WILDCARD-001",
+    "description": "CORS allows all origins with wildcard",
+    "vulnerabilities": "CORSMIS",
+    "pattern": "CORS\\(|cors\\(|Access-Control-Allow-Origin|Access.Control.Allow.Credentials",
+    "pattern_not": ["origins.*=.*\\[|allowed_origins"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "CORS-CREDENTIALS-001",
+    "description": "CORS allows credentials with wildcard origin",
+    "vulnerabilities": "CORSMIS",
+    "pattern": "Access-Control-Allow-Credentials.*true|Allow-Credentials.*true",
+    "pattern_not": ["specific.*origin|validated.*origin"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "CLICKJACKING-NO-XFRAME-001",
+    "description": "No X-Frame-Options header set",
+    "vulnerabilities": "XSS",
+    "pattern": "@app\\.route\\(|def\\s+\\w+.*render|return.*html",
+    "pattern_not": ["X-Frame-Options|X-Frame"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "CSP-MISSING-001",
+    "description": "Content Security Policy header missing",
+    "vulnerabilities": "XSS",
+    "pattern": "@app\\.route\\(|def\\s+\\w+.*render",
+    "pattern_not": ["Content-Security-Policy|CSP"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "CSP-UNSAFE-001",
+    "description": "Content Security Policy is too permissive",
+    "vulnerabilities": "XSS",
+    "pattern": "Content-Security-Policy|CSP.*=",
+    "pattern_not": ["nonce|strict-dynamic"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "CSRF-TOKEN-MISSING-001",
+    "description": "CSRF token not implemented",
+    "vulnerabilities": "CSRF",
+    "pattern": "@app\\.post\\(|@app\\.put\\(|@app\\.delete\\(",
+    "pattern_not": ["csrf_token|CSRFProtect|csrf"],
+    "find_var": "",
+    "remediation": []
+  }
+]

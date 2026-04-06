@@ -1,0 +1,38 @@
+[
+  {
+    "id": "RACE-CONDITION-FILE-001",
+    "description": "Race condition in file operations",
+    "vulnerabilities": "CONC",
+    "pattern": "os\\.path\\.exists\\(|os\\.path\\.isfile\\(.*os\\.open\\(|open\\(.*r\\).*write",
+    "pattern_not": ["fcntl\\.flock|with.*open|threading\\.Lock|Lock\\("],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "TOCTOU-FILE-001",
+    "description": "Time-of-Check-Time-of-Use (TOCTOU) vulnerability",
+    "vulnerabilities": "CONC",
+    "pattern": "os\\.path\\.exists|os\\.path\\.isfile|os\\.stat",
+    "pattern_not": ["contextlib|atomic|os\\.rename"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "RACE-CONDITION-DB-001",
+    "description": "Race condition in database operations",
+    "vulnerabilities": "CONC",
+    "pattern": "SELECT.*WHERE|db\\.query\\(|cursor\\.execute\\(",
+    "pattern_not": ["LOCK|SERIALIZE|transaction|begin|commit"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "CONCURRENT-MAP-ACCESS-001",
+    "description": "Concurrent access to shared dictionary",
+    "vulnerabilities": "CONC",
+    "pattern": "shared_dict\\[",
+    "pattern_not": ["Lock\\(|RLock\\(|Semaphore\\(|with"], 
+    "find_var": "",
+    "remediation": []
+  }
+]

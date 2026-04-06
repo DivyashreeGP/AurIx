@@ -1,0 +1,20 @@
+[
+  {
+    "id": "TARFILE-EXTRACTALL-001",
+    "description": "tarfile.extractall without path validation (Zip Slip)",
+    "vulnerabilities": "SDIF",
+    "pattern": "tarfile\\.TarFile\\([^)]*\\)\\.extractall\\(",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "ZIPFILE-EXTRACTALL-001",
+    "description": "zipfile.extractall without path validation (Zip Slip)",
+    "vulnerabilities": "SDIF",
+    "pattern": "zipfile\\.ZipFile\\([^)]*\\)\\.extractall\\(",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  }
+]

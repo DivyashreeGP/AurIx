@@ -1,0 +1,134 @@
+{
+    "test_input.py": [
+        {
+            "snippet_number": 1,
+            "original_code": "from flask import Flask, request, make_response",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": []
+        },
+        {
+            "snippet_number": 3,
+            "original_code": "app = Flask(__name__)",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 5,
+            "original_code": "@app.route('/')",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 6,
+            "original_code": "def greet():",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 7,
+            "original_code": "name = request.args.get('name', '')",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": []
+        },
+        {
+            "snippet_number": 8,
+            "original_code": "response = make_response(f'<h1>Hello {name}</h1>')",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": []
+        },
+        {
+            "snippet_number": 8,
+            "original_code": "response = make_response(f'<h1>Hello {name}</h1>')",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "Broken Access Control"
+            ],
+            "comments": [],
+            "execution_time": "0.0000",
+            "details": [
+                {
+                    "rule_id": "REQUEST-ARGS_GET-005",
+                    "vulnerabilities": [
+                        "Broken Access Control"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 9,
+            "original_code": "return response",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 9,
+            "original_code": "return response",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "Broken Access Control"
+            ],
+            "comments": [],
+            "execution_time": "0.0000",
+            "details": [
+                {
+                    "rule_id": "REQUEST-ARGS_GET-006",
+                    "vulnerabilities": [
+                        "Broken Access Control"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 11,
+            "original_code": "if __name__ == '__main__':",
+            "vulnerable": false,
+            "vulnerabilities_summary": [],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": []
+        },
+        {
+            "snippet_number": 12,
+            "original_code": "app.run(debug=True)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SECM",
+                "Security Misconfiguration"
+            ],
+            "comments": [],
+            "execution_time": "0.0002",
+            "details": [
+                {
+                    "rule_id": "DEBUG-TRUE-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        }
+    ]
+}

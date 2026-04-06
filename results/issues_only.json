@@ -1,0 +1,567 @@
+{
+    "ruleset_test_input.py": [
+        {
+            "snippet_number": 4,
+            "original_code": "import xml.etree.ElementTree as ET",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SECM"
+            ],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": [
+                {
+                    "rule_id": "ELEMENTTREE-CONFIGURATION-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 10,
+            "original_code": "import tarfile",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "TARFILE-VERSION-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 18,
+            "original_code": "subprocess.run(\"ls -la\", shell=True)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "INJC"
+            ],
+            "comments": [],
+            "execution_time": "0.0006",
+            "details": [
+                {
+                    "rule_id": "SUBPROCESS-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SUBPROCESS-SHELL-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SUBPROC-SHELL-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 21,
+            "original_code": "cmd = \"ping \" + request.args.get(\"host\", \"\")",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "INJC",
+                "SECM"
+            ],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": [
+                {
+                    "rule_id": "REQUEST-ARGS-GET-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "REQUEST-ARGS-GET-020",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 22,
+            "original_code": "subprocess.Popen(cmd)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "INJC"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "SUBPROCESS-002",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 25,
+            "original_code": "data = pickle.loads(request.args.get(\"data\", \"\").encode())",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": [
+                {
+                    "rule_id": "PICKLE-LOADS-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "REQUEST-ARGS-GET-004",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "ENCODE-DECODE-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "PICKLE-FAILURE-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 28,
+            "original_code": "x = marshal.loads(request.args.get(\"blob\", \"\").encode())",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": [
+                {
+                    "rule_id": "MARSHAL-LOADS-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "REQUEST-ARGS-GET-004",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "ENCODE-DECODE-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 32,
+            "original_code": "obj = yaml.load(content)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "INJC, SDIF",
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "YAML-LOAD-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "YAML-LOAD-001",
+                    "vulnerabilities": [
+                        "INJC, SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 39,
+            "original_code": "root2 = lxml.etree.fromstring(xml_data)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "LXML-FROMSTRING-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 43,
+            "original_code": "requests.get(url, verify=False)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "IDAF,SSRF",
+                "SECM"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "REQUESTS-VERIFY-FALSE-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "REQUESTS-005",
+                    "vulnerabilities": [
+                        "IDAF,SSRF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 46,
+            "original_code": "requests.post(request.args.get(\"url\"))",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "INJC"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "REQUEST-ARGS-GET-004",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SSRF-REQUESTS-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 50,
+            "original_code": "urllib.request.urlopen(request.args.get(\"url\"))",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "INJC",
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": [
+                {
+                    "rule_id": "REQUEST-ARGS-GET-004",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "URLLIB-OPEN-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SSRF-URLLIB-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 53,
+            "original_code": "httpx.get(request.args.get(\"url\"))",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "INJC"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "REQUEST-ARGS-GET-004",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SSRF-HTTPX-001",
+                    "vulnerabilities": [
+                        "INJC"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 57,
+            "original_code": "jwt.decode(request.args.get(\"token\", \"\"), options={\"verify_signature\": False})",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF"
+            ],
+            "comments": [],
+            "execution_time": "0.0005",
+            "details": [
+                {
+                    "rule_id": "REQUEST-ARGS-GET-004",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "JWT-DECODE-002",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 61,
+            "original_code": "cipher = AES.new(b\"SECRETSECRETSECRETS!\", AES.MODE_ECB)",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF"
+            ],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": [
+                {
+                    "rule_id": "EBC-MODE-001",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 64,
+            "original_code": "token = random.choice(\"abcdef123456\")",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "CRYP"
+            ],
+            "comments": [],
+            "execution_time": "0.0015",
+            "details": [
+                {
+                    "rule_id": "RANDOM-CHOICE-001",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "RANDOM-FOR-SECURITY-001",
+                    "vulnerabilities": [
+                        "CRYP"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 67,
+            "original_code": "ssl_context = ssl._create_unverified_context()",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "IDAF",
+                "SECM"
+            ],
+            "comments": [],
+            "execution_time": "0.0005",
+            "details": [
+                {
+                    "rule_id": "SSL-UNVERIFIED-CONTEXT-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "CREATE-UNVERIFIED-CONTEXT-001",
+                    "vulnerabilities": [
+                        "IDAF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 71,
+            "original_code": "tar.extractall(\"extract_here\")",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": [
+                {
+                    "rule_id": "ZIP-EXTRACT-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 74,
+            "original_code": "z = zipfile.ZipFile(\"evil.zip\")",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": [
+                {
+                    "rule_id": "ZIP-DIM-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 75,
+            "original_code": "z.extractall(\"extract_zip\")",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SDIF"
+            ],
+            "comments": [],
+            "execution_time": "0.0003",
+            "details": [
+                {
+                    "rule_id": "ZIP-EXTRACT-001",
+                    "vulnerabilities": [
+                        "SDIF"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 81,
+            "original_code": "resp.set_cookie(\"sessionid\", \"12345\")   # no httponly, secure, samesite",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "CRYF",
+                "SECM"
+            ],
+            "comments": [],
+            "execution_time": "0.0005",
+            "details": [
+                {
+                    "rule_id": "SET-COOKIE-001",
+                    "vulnerabilities": [
+                        "CRYF"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SET-COOKIE-MISSING-FLAGS-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                },
+                {
+                    "rule_id": "SET-COOKIE-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        },
+        {
+            "snippet_number": 87,
+            "original_code": "response.headers[\"Access-Control-Allow-Origin\"] = \"*\"",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "SECM"
+            ],
+            "comments": [],
+            "execution_time": "0.0004",
+            "details": [
+                {
+                    "rule_id": "CORS-ALLOW-ALL-001",
+                    "vulnerabilities": [
+                        "SECM"
+                    ],
+                    "comment": "NULL"
+                }
+            ]
+        }
+    ]
+}

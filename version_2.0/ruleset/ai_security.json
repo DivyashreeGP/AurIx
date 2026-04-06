@@ -1,0 +1,47 @@
+[
+  {
+    "id": "PROMPT-INJECTION-001",
+    "description": "User input concatenated in prompt without sanitization",
+    "vulnerabilities": "INJC",
+    "pattern": "prompt\\s*=.*\\+|prompt.*format\\(|f\\\".*{.*}.*prompt",
+    "pattern_not": ["escape|sanitize|validate"],
+    "find_var": "input\\(|request\\.",
+    "remediation": []
+  },
+  {
+    "id": "PROMPT-LEAK-SYSTEM-001",
+    "description": "System prompt leaked to user",
+    "vulnerabilities": "INFDISC",
+    "pattern": "print\\(.*system_prompt|return.*system_prompt|system_prompt.*=",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "LLM-API-KEY-EXPOSURE-001",
+    "description": "LLM API key hardcoded or improperly secured",
+    "vulnerabilities": "LEAKAGE",
+    "pattern": "OPENAI_API_KEY|api_key\\s*=|KEY\\s*=.*[a-zA-Z0-9]{20,}",
+    "pattern_not": ["os\\.environ|getenv"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "LLM-NO-INPUT-VALIDATION-001",
+    "description": "No validation of LLM responses before use",
+    "vulnerabilities": "INJC",
+    "pattern": "llm\\.generate|openai\\.ChatCompletion|response\\[.message.\\]",
+    "pattern_not": ["validate|sanitize|parse"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "LLM-JAILBREAK-001",
+    "description": "No protection against jailbreak attempts",
+    "vulnerabilities": "INJC",
+    "pattern": "chat_history.*append|messages.*append",
+    "pattern_not": ["validate_prompt|block|filter"],
+    "find_var": "",
+    "remediation": []
+  }
+]

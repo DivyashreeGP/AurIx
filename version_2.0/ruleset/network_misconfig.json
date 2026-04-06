@@ -1,0 +1,20 @@
+[
+  {
+    "id": "REQUESTS-VERIFY-FALSE-001",
+    "description": "TLS cert verification disabled",
+    "vulnerabilities": "SECM",
+    "pattern": "requests\\.(get|post|put|delete|head|options|patch)\\([^)]*verify\\s*=\\s*False",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "SSL-UNVERIFIED-CONTEXT-001",
+    "description": "Using unverified SSL context",
+    "vulnerabilities": "SECM",
+    "pattern": "ssl\\._create_unverified_context\\(",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  }
+]

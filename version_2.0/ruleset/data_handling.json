@@ -1,0 +1,47 @@
+[
+  {
+    "id": "SENSITIVE-DATA-CACHE-001",
+    "description": "Sensitive data stored in cache",
+    "vulnerabilities": "DATA",
+    "pattern": "cache\\.set|memcache|redis.*set",
+    "pattern_not": ["password.*!=|token.*!="],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "SENSITIVE-LOG-001",
+    "description": "Sensitive data logged",
+    "vulnerabilities": "DATA",
+    "pattern": "logging\\.info\\(.*password|logging\\.debug\\(.*token|print\\(.*key",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "INFINITE-LOOP-001",
+    "description": "Potential infinite loop causing DoS",
+    "vulnerabilities": "DOSA",
+    "pattern": "while\\s+True|while\\s+1|for.*in.*:.*continue",
+    "pattern_not": ["break|timeout"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "UNBOUNDED-RECURSION-001",
+    "description": "Unbounded recursion causing DoS",
+    "vulnerabilities": "DOSA",
+    "pattern": "def\\s+\\w+\\(.*\\).*\\w+\\(",
+    "pattern_not": ["if|return|depth"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "MEMORY-EXHAUSTION-001",
+    "description": "Unrestricted resource allocation",
+    "vulnerabilities": "DOSA",
+    "pattern": "list\\(|dict\\(|\\[.*for.*in.*\\]",
+    "pattern_not": ["limit|max_size|[:"],
+    "find_var": "",
+    "remediation": []
+  }
+]

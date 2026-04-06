@@ -1,0 +1,34 @@
+{
+    "C:\\Users\\DIVYAS~1\\AppData\\Local\\Temp\\tmps3a1h8qg.py": [
+        {
+            "line": 1,
+            "rules": [
+                "DEPENDENCY-CONFUSION-001"
+            ],
+            "categories": [
+                "SUPPLY"
+            ],
+            "code": "import os"
+        },
+        {
+            "line": 3,
+            "rules": [
+                "NO-INPUT-VALIDATION-001"
+            ],
+            "categories": [
+                "INVAL"
+            ],
+            "code": "user_input = input()"
+        },
+        {
+            "line": 5,
+            "rules": [
+                "OS-SYSTEM-002"
+            ],
+            "categories": [
+                "SECM"
+            ],
+            "code": "os.system(user_input)"
+        }
+    ]
+}

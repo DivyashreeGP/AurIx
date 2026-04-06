@@ -1,0 +1,29 @@
+[
+  {
+    "id": "JWT-DECODE-NOVERIFY-001",
+    "description": "jwt.decode without signature verification",
+    "vulnerabilities": "SDIF",
+    "pattern": "jwt\\.decode\\([^)]*(verify\\s*=\\s*False|options\\s*=\\s*\\{[^}]*verify_signature\\s*:\\s*False)",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "RANDOM-FOR-SECURITY-001",
+    "description": "Use of random.* for security tokens",
+    "vulnerabilities": "CRYP",
+    "pattern": "random\\.(randrange|randint|random|choice|choices)\\(",
+    "pattern_not": ["secrets\\."],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "AES-ECB-001",
+    "description": "AES used in ECB mode",
+    "vulnerabilities": "CRYP",
+    "pattern": "(Crypto|Cryptodome)\\.Cipher\\.AES\\.new\\([^)]*MODE_ECB",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  }
+]

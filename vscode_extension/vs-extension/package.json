@@ -1,0 +1,63 @@
+{
+  "name": "vs-extension",
+  "displayName": "DeVAIC Security Extension",
+  "description": "Real-time vulnerability detection for pasted code.",
+  "version": "0.0.1",
+  "publisher": "devaic",
+  "engines": {
+    "vscode": "^1.106.1"
+  },
+  "categories": [
+    "Other"
+  ],
+
+  "activationEvents": ["*"],
+
+  "main": "./out/extension.js",
+
+  "contributes": {
+    "commands": [
+      {
+        "command": "vs-extension.helloWorld",
+        "title": "Hello World"
+      },
+      {
+        "command": "devaic.analyzeWithAI",
+        "title": "DeVAIC: Analyze with AI",
+        "category": "DeVAIC"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "devaic.analyzeWithAI",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a",
+        "when": "editorTextFocus && resourceLangId == python"
+      }
+    ]
+  },
+
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.19.1",
+    "@types/vscode": "^1.106.1",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.3"
+  },
+
+  "dependencies": {
+    "axios": "^1.13.2"
+  }
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "RATE-LIMIT-MISSING-001",
+    "description": "No rate limiting configured on endpoint",
+    "vulnerabilities": "DOSA",
+    "pattern": "@app\\.route\\(|@app\\.post\\(|@app\\.get\\(|def\\s+\\w+\\(.*request",
+    "pattern_not": ["@limiter\\.limit|@ratelimit|rate_limit|RateLimit"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "RATE-LIMIT-WEAK-001",
+    "description": "Weak rate limiting configuration",
+    "vulnerabilities": "DOSA",
+    "pattern": "limit\\s*=\\s*[0-9]+|requests_per|max_requests",
+    "pattern_not": ["limit\\s*=\\s*5[0-9]{2}|limit\\s*=\\s*1000"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "BRUTE-FORCE-LOGIN-001",
+    "description": "No protection against brute force login",
+    "vulnerabilities": "DOSA",
+    "pattern": "def\\s+login\\(|def\\s+authenticate\\(|password.*compare|pwd.*compare",
+    "pattern_not": ["rate_limit|limiter|attempt_count|fail_count"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "NO-TIMEOUT-001",
+    "description": "No timeout configured for resource operations",
+    "vulnerabilities": "DOSA",
+    "pattern": "requests\\.get\\(|requests\\.post\\(|urllib\\.request\\.urlopen\\(|socket\\.recv\\(",
+    "pattern_not": ["timeout\\s*=", "timeout\\s*:"],
+    "find_var": "",
+    "remediation": []
+  }
+]

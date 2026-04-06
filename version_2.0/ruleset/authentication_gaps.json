@@ -1,0 +1,47 @@
+[
+  {
+    "id": "MFA-DISABLED-001",
+    "description": "MFA not enabled or enforced",
+    "vulnerabilities": "AUTH",
+    "pattern": "# mfa|#.*MFA|def.*login|def.*authenticate",
+    "pattern_not": ["totp|TOTP|pyotp|mfa_required|mfa_enabled|twilio"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "MFA-OPTIONAL-001",
+    "description": "MFA is optional, not enforced",
+    "vulnerabilities": "AUTH", 
+    "pattern": "if.*mfa|mfa.*if|mfa.*and",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "SESSION-FIXATION-001",
+    "description": "Session fixation vulnerability",
+    "vulnerabilities": "AUTH",
+    "pattern": "session\\[.id.\\]\\s*=|session_id\\s*=",
+    "pattern_not": ["regenerate|new_session|uuid"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "TOKEN-REUSE-001",
+    "description": "Token reuse without regeneration",
+    "vulnerabilities": "AUTH",
+    "pattern": "token\\s*=|jwt_token|auth_token",
+    "pattern_not": ["uuid\\.uuid4|random\\.randint"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "PASSWORD-STORED-PLAIN-001",
+    "description": "Password stored in plaintext",
+    "vulnerabilities": "AUTH",
+    "pattern": "password\\s*=\\s*input|pwd\\s*=\\s*input|user\\.password\\s*=",
+    "pattern_not": ["hashed|bcrypt|argon2|scrypt|hashlib"],
+    "find_var": "",
+    "remediation": []
+  }
+]

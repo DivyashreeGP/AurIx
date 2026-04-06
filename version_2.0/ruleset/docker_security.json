@@ -1,0 +1,38 @@
+[
+  {
+    "id": "DOCKER-RUN-AS-ROOT-001",
+    "description": "Docker container running as root",
+    "vulnerabilities": "MISCFG",
+    "pattern": "USER root|# USER|#.*USER",
+    "pattern_not": ["USER app|USER www|USER nobody"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "DOCKER-NO-HEALTHCHECK-001",
+    "description": "Docker container has no HEALTHCHECK",
+    "vulnerabilities": "MISCFG",
+    "pattern": "FROM|ENTRYPOINT|CMD",
+    "pattern_not": ["HEALTHCHECK"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "DOCKER-PRIVILEGE-ESCALATION-001",
+    "description": "Docker privileged mode could be abuse",
+    "vulnerabilities": "MISCFG",
+    "pattern": "privileged\\s*=\\s*True|--privileged",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "DOCKER-SECRETS-IN-ENV-001",
+    "description": "Secrets hardcoded in Dockerfile",
+    "vulnerabilities": "MISCFG",
+    "pattern": "ENV.*PASSWORD|ENV.*TOKEN|ENV.*KEY|ENV.*SECRET",
+    "pattern_not": ["FROM.*as|ARG"],
+    "find_var": "",
+    "remediation": []
+  }
+]

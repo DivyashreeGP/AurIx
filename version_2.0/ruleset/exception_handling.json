@@ -1,0 +1,56 @@
+[
+  {
+    "id": "GENERIC-EXCEPTION-001",
+    "description": "Catching generic Exception instead of specific",
+    "vulnerabilities": "EXCMIS",
+    "pattern": "except\\s+Exception|except\\s+:|except\\:",
+    "pattern_not": ["except.*(KeyError|ValueError|IndexError|TypeError)"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "BARE-EXCEPT-001",
+    "description": "Using bare except clause",
+    "vulnerabilities": "EXCMIS",
+    "pattern": "except\\s*:|^except$",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "EXCEPTION-PRINT-TRACEBACK-001",
+    "description": "Exception details printed with traceback",
+    "vulnerabilities": "INFDISC",
+    "pattern": "print\\(.*e\\)|print\\(.*error\\)|traceback\\.print_exc",
+    "pattern_not": ["logging"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "PASS-EXCEPTION-001",
+    "description": "Exception caught and silently ignored with pass",
+    "vulnerabilities": "EXCMIS",
+    "pattern": "except.*:\\s*pass",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "NO-INPUT-VALIDATION-001",
+    "description": "User input not validated before use",
+    "vulnerabilities": "INVAL",
+    "pattern": "input\\(|request\\.get\\(|request\\.args",
+    "pattern_not": ["len\\(|validate|check|if.*:"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "WEAK-INPUT-VALIDATION-001",
+    "description": "Input validation is insufficient",
+    "vulnerabilities": "INVAL",
+    "pattern": "if.*len|if.*type",
+    "pattern_not": ["regex|pattern|whitelist|allow"],
+    "find_var": "",
+    "remediation": []
+  }
+]

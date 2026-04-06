@@ -1,0 +1,29 @@
+[
+  {
+    "id": "SSRF-REQUESTS-001",
+    "description": "Potential SSRF via requests.* with user-controlled URL",
+    "vulnerabilities": "INJC",
+    "pattern": "requests\\.(get|post|put|delete|head|options|patch)\\([^)]*(request\\.(args|form|values)\\.|input\\()",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "SSRF-URLLIB-001",
+    "description": "Potential SSRF via urllib.request.urlopen with user-controlled URL",
+    "vulnerabilities": "INJC",
+    "pattern": "urllib\\.request\\.urlopen\\([^)]*(request\\.(args|form|values)\\.|input\\()",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "SSRF-HTTPX-001",
+    "description": "Potential SSRF via httpx.* with user-controlled URL",
+    "vulnerabilities": "INJC",
+    "pattern": "httpx\\.(get|post|put|delete|head|options|patch)\\([^)]*(request\\.(args|form|values)\\.|input\\()",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  }
+]

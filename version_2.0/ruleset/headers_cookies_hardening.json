@@ -1,0 +1,20 @@
+[
+  {
+    "id": "SET-COOKIE-MISSING-FLAGS-001",
+    "description": "Set-Cookie missing Secure/HttpOnly/SameSite",
+    "vulnerabilities": "SECM",
+    "pattern": "\\.set_cookie\\([^)]*\\)",
+    "pattern_not": ["(secure\\s*=\\s*True)", "(httponly\\s*=\\s*True)", "(samesite\\s*=\\s*(['\\\"]?(Lax|Strict|None)['\\\"]?))"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "CORS-ALLOW-ALL-001",
+    "description": "Overly permissive CORS",
+    "vulnerabilities": "SECM",
+    "pattern": "Access-Control-Allow-Origin[\\s\\S]*\\*",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  }
+]

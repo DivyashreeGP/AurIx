@@ -1,0 +1,29 @@
+[
+  {
+    "id": "SUBPROC-SHELL-001",
+    "description": "subprocess with shell=True",
+    "vulnerabilities": "INJC",
+    "pattern": "subprocess\\.(Popen|call|run)\\([^)]*shell\\s*=\\s*True",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "SUBPROC-CMD-CONCAT-001",
+    "description": "Command built by string concat passed to subprocess",
+    "vulnerabilities": "INJC",
+    "pattern": "subprocess\\.(Popen|call|run)\\([^)]*['\\\"]\\s*\\+\\s*.*\\)",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "SUBPROC-PASS-STRING-001",
+    "description": "String command with possible injection vector",
+    "vulnerabilities": "INJC",
+    "pattern": "subprocess\\.(Popen|call|run)\\(\\s*[\"'][^\\)]*[\"']\\s*\\)",
+    "pattern_not": ["subprocess\\.(Popen|call|run)\\([^)]*shell\\s*=\\s*False"],
+    "find_var": "",
+    "remediation": []
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "PICKLE-LOADS-001",
+    "description": "Insecure deserialization via pickle.loads",
+    "vulnerabilities": "SDIF",
+    "pattern": "pickle\\.loads\\(",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "PICKLE-LOAD-001",
+    "description": "Insecure deserialization via pickle.load",
+    "vulnerabilities": "SDIF",
+    "pattern": "pickle\\.load\\(",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "YAML-LOAD-001",
+    "description": "yaml.load without SafeLoader",
+    "vulnerabilities": "SDIF",
+    "pattern": "yaml\\.load\\(",
+    "pattern_not": ["yaml\\.load\\([^)]*Loader\\s*=\\s*SafeLoader"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "MARSHAL-LOADS-001",
+    "description": "Unsafe use of marshal.loads",
+    "vulnerabilities": "SDIF",
+    "pattern": "marshal\\.loads\\(",
+    "pattern_not": [],
+    "find_var": "",
+    "remediation": []
+  }
+]

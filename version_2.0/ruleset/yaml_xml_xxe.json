@@ -1,0 +1,20 @@
+[
+  {
+    "id": "XML-ETREE-FROMSTRING-001",
+    "description": "XML parsing without defusing (XXE risk)",
+    "vulnerabilities": "SDIF",
+    "pattern": "xml\\.etree\\.ElementTree\\.(fromstring|parse)\\(",
+    "pattern_not": ["from\\s+defusedxml", "import\\s+defusedxml"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "LXML-FROMSTRING-001",
+    "description": "lxml parsing may allow XXE if not hardened",
+    "vulnerabilities": "SDIF",
+    "pattern": "lxml\\.(etree|html)\\.(fromstring|parse)\\(",
+    "pattern_not": ["resolve_entities\\s*=\\s*False", "no_network\\s*=\\s*True"],
+    "find_var": "",
+    "remediation": []
+  }
+]

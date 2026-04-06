@@ -1,0 +1,113 @@
+{
+    "test_vulns_10.py": [
+        {
+            "line": 5,
+            "rules": [
+                "SQL-001",
+                "SQL-PARAMETRIZED-QUERY-002"
+            ],
+            "categories": [
+                "INJC"
+            ],
+            "code": "query = f\"SELECT * FROM users WHERE username = '{user_input}'\""
+        },
+        {
+            "line": 11,
+            "rules": [
+                "SUBPROCESS-SHELL-001",
+                "SUBPROC-SHELL-001"
+            ],
+            "categories": [
+                "INJC"
+            ],
+            "code": "subprocess.call(f\"cat {filename}\", shell=True)"
+        },
+        {
+            "line": 15,
+            "rules": [
+                "CREDENTIALS-001"
+            ],
+            "categories": [
+                "IDAF"
+            ],
+            "code": "password = \"admin123\""
+        },
+        {
+            "line": 21,
+            "rules": [
+                "PICKLE-LOADS-001",
+                "PICKLE-FAILURE-001"
+            ],
+            "categories": [
+                "SDIF"
+            ],
+            "code": "obj = pickle.loads(data)"
+        },
+        {
+            "line": 25,
+            "rules": [
+                "EVAL-001"
+            ],
+            "categories": [
+                "INJC"
+            ],
+            "code": "eval(user_code)"
+        },
+        {
+            "line": 30,
+            "rules": [
+                "WITH-OPEN-001"
+            ],
+            "categories": [
+                "BRAC"
+            ],
+            "code": "file = open(user_path, 'r')"
+        },
+        {
+            "line": 36,
+            "rules": [
+                "MD5-001",
+                "ENCODE-DECODE-001"
+            ],
+            "categories": [
+                "CRYF",
+                "SDIF"
+            ],
+            "code": "weak_hash = hashlib.md5(password_input.encode()).hexdigest()"
+        },
+        {
+            "line": 39,
+            "rules": [
+                "ELEMENTTREE-CONFIGURATION-001"
+            ],
+            "categories": [
+                "SECM"
+            ],
+            "code": "import xml.etree.ElementTree as ET"
+        },
+        {
+            "line": 45,
+            "rules": [
+                "RANDOM-001",
+                "RANDOM-FOR-SECURITY-001"
+            ],
+            "categories": [
+                "CRYF",
+                "CRYP"
+            ],
+            "code": "token = random.randint(1, 1000000)"
+        },
+        {
+            "line": 46,
+            "rules": [
+                "RANDOM-001",
+                "RANDOM-FOR-SECURITY-001"
+            ],
+            "categories": [
+                "CRYF",
+                "CRYP"
+            ],
+            "code": "session_id = str(random.random())"
+        }
+    ]
+}

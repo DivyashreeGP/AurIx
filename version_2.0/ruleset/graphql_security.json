@@ -1,0 +1,47 @@
+[
+  {
+    "id": "GRAPHQL-UNLIMITED-DEPTH-001",
+    "description": "GraphQL query depth not limited",
+    "vulnerabilities": "DOSA",
+    "pattern": "graphene|graphql|@graphql",
+    "pattern_not": ["max_depth|max_query_depth|depth_limit"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "GRAPHQL-UNLIMITED-COMPLEXITY-001",
+    "description": "GraphQL query complexity not limited",
+    "vulnerabilities": "DOSA",
+    "pattern": "graphene|graphql|@graphql",
+    "pattern_not": ["complexity_limit|max_complexity"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "GRAPHQL-NO-RATE-LIMIT-001",
+    "description": "GraphQL endpoint has no rate limiting",
+    "vulnerabilities": "DOSA",
+    "pattern": "graphql_view|@graphql|GraphQLView",
+    "pattern_not": ["rate_limit|limiter"],
+    "find_var": "",
+    "remediation": []
+  },
+  {
+    "id": "GRAPHQL-INJECTION-001",
+    "description": "GraphQL injection via variable",
+    "vulnerabilities": "INJC",
+    "pattern": "graphql_query\\s*=|execute\\(",
+    "pattern_not": ["query.*{|mutation.*{"],
+    "find_var": "input\\(|request\\.",
+    "remediation": []
+  },
+  {
+    "id": "GRAPHQL-INTROSPECTION-ENABLED-001",
+    "description": "GraphQL introspection enabled in production",
+    "vulnerabilities": "INFDISC",
+    "pattern": "introspection_enabled|introspection.*=.*True",
+    "pattern_not": ["False|disable"],
+    "find_var": "",
+    "remediation": []
+  }
+]
