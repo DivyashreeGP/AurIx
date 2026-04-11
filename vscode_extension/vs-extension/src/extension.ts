@@ -11,11 +11,11 @@ const analyzeCode = async (doc: vscode.TextDocument, triggerAI: boolean = false)
     const codeToSend = doc.getText();
     if (!codeToSend || codeToSend.trim().length === 0) {
       if (diagCollection) diagCollection.set(doc.uri, []);
-      console.log('DeVAIC: empty document, cleared diagnostics.');
+      console.log('AurIx: empty document, cleared diagnostics.');
       return;
     }
 
-    console.log(`DeVAIC: analyzing ${doc.uri.fsPath} (len=${codeToSend.length})`);
+    console.log(`AurIx: analyzing ${doc.uri.fsPath} (len=${codeToSend.length})`);
 
     const endpoints = ['http://localhost:8000/analyze', 'http://127.0.0.1:8000/analyze'];
     let resp: any = null;
@@ -24,18 +24,18 @@ const analyzeCode = async (doc: vscode.TextDocument, triggerAI: boolean = false)
       const url = endpoints[i];
       try {
         resp = await axios.post(url, { code: codeToSend }, { timeout: 8000 });
-        console.log(`DeVAIC: backend responded from ${url}`);
+        console.log(`AurIx: backend responded from ${url}`);
         lastErr = null;
         break;
       } catch (err: any) {
         lastErr = err;
         const emsg = (err && (err.message || err.toString())) ? (err.message || err.toString()) : JSON.stringify(err);
-        console.warn(`DeVAIC: request to ${url} failed:`, emsg);
+        console.warn(`AurIx: request to ${url} failed:`, emsg);
       }
     }
 
     if (!resp) {
-      console.error('DeVAIC: all backend requests failed.', lastErr);
+      console.error('AurIx: all backend requests failed.', lastErr);
       if (diagCollection) diagCollection.set(doc.uri, []);
       return;
     }
@@ -44,7 +44,7 @@ const analyzeCode = async (doc: vscode.TextDocument, triggerAI: boolean = false)
     const diagnostics: vscode.Diagnostic[] = [];
 
     if (result && Array.isArray(result.issues) && result.issues.length > 0) {
-      console.log(`DeVAIC: Found ${result.issues.length} vulnerabilities`);
+      console.log(`AurIx: Found ${result.issues.length} vulnerabilities`);
       
       for (let i = 0; i < result.issues.length; i++) {
         const issue: any = result.issues[i];
@@ -77,7 +77,7 @@ const analyzeCode = async (doc: vscode.TextDocument, triggerAI: boolean = false)
       }
     } else {
       if (diagCollection) diagCollection.set(doc.uri, []);
-      console.log('DeVAIC: no vulnerabilities detected for', doc.uri.fsPath);
+      console.log('AurIx: no vulnerabilities detected for', doc.uri.fsPath);
       if (triggerAI) {
         showSecureMessage();
       }
@@ -85,19 +85,19 @@ const analyzeCode = async (doc: vscode.TextDocument, triggerAI: boolean = false)
     }
 
     if (diagCollection) diagCollection.set(doc.uri, diagnostics);
-    console.log(`DeVAIC: set ${diagnostics.length} diagnostic(s) for ${doc.uri.fsPath}`);
+    console.log(`AurIx: set ${diagnostics.length} diagnostic(s) for ${doc.uri.fsPath}`);
 
     if (triggerAI && result.issues && result.issues.length > 0) {
       await analyzeWithAI(codeToSend, result.issues);
     }
   } catch (err: any) {
-    console.error('DeVAIC: unexpected error while analyzing:', err && (err.message ?? err.toString()) ? (err.message ?? err.toString()) : err);
+    console.error('AurIx: unexpected error while analyzing:', err && (err.message ?? err.toString()) ? (err.message ?? err.toString()) : err);
   }
 };
 
 const analyzeWithAI = async (code: string, issues: any[]) => {
   try {
-    console.log('DeVAIC: Sending to AI analysis engine...');
+    console.log('AurIx: Sending to AI analysis engine...');
     
     // If no issues, show secure message immediately
     if (!issues || issues.length === 0) {
@@ -111,10 +111,10 @@ const analyzeWithAI = async (code: string, issues: any[]) => {
     for (let i = 0; i < endpoints.length; i++) {
       try {
         resp = await axios.post(endpoints[i], { code, issues }, { timeout: 30000 });
-        console.log(`DeVAIC AI: response from ${endpoints[i]}`);
+        console.log(`AurIx AI: response from ${endpoints[i]}`);
         break;
       } catch (err: any) {
-        console.warn(`DeVAIC AI: request to ${endpoints[i]} failed`, err.message);
+        console.warn(`AurIx AI: request to ${endpoints[i]} failed`, err.message);
       }
     }
     
@@ -133,7 +133,7 @@ const analyzeWithAI = async (code: string, issues: any[]) => {
     
     showAnalysisPanel('Vulnerability Analysis', analysisResult, code);
   } catch (err: any) {
-    console.error('DeVAIC AI: error', err);
+    console.error('AurIx AI: error', err);
     vscode.window.showErrorMessage('AI analysis failed: ' + (err.message || 'Unknown error'));
   }
 };
@@ -144,7 +144,7 @@ const showSecureMessage = () => {
     analysisPanel = undefined;
   }
   
-  analysisPanel = vscode.window.createWebviewPanel('devaic-analysis', 'DeVAIC Analysis', vscode.ViewColumn.Beside, { enableScripts: true });
+  analysisPanel = vscode.window.createWebviewPanel('aurix-analysis', 'AurIx Analysis', vscode.ViewColumn.Beside, { enableScripts: true });
   analysisPanel.webview.html = getSecureMessageContent();
 };
 
@@ -154,10 +154,37 @@ const showAnalysisPanel = (title: string, analysis: any, code: string) => {
     analysisPanel = undefined;
   }
   
-  analysisPanel = vscode.window.createWebviewPanel('devaic-analysis', 'DeVAIC Analysis', vscode.ViewColumn.Beside, { enableScripts: true });
+  analysisPanel = vscode.window.createWebviewPanel('aurix-analysis', 'AurIx Analysis', vscode.ViewColumn.Beside, { enableScripts: true });
   const html = getWebviewContent(analysis, code);
   analysisPanel.webview.html = html;
   currentAnalysisData = { analysis, code };
+};
+
+const parseMarkdownToHtml = (text: string): string => {
+  const escapeHtmlStr = (txt: string) => {
+    const map: {[key: string]: string} = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'};
+    return txt.replace(/[&<>"']/g, m => map[m]);
+  };
+
+  let html = escapeHtmlStr(text);
+  
+  // Headers: ### text → <h3>text</h3>
+  html = html.replace(/^### (.*?)$/gm, '<h4 style="margin-top: 12px; margin-bottom: 6px; font-weight: 600; font-size: 13px;">$1</h4>');
+  html = html.replace(/^## (.*?)$/gm, '<h3 style="margin-top: 12px; margin-bottom: 6px; font-weight: 600; font-size: 14px;">$1</h3>');
+  
+  // Bold: **text** → <strong>text</strong>
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // Italic: *text* → <em>text</em>
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  
+  // Code: `text` → <code>text</code>
+  html = html.replace(/`(.*?)`/g, '<code style="background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 3px; font-size: 11px;">$1</code>');
+  
+  // Collapse multiple newlines into single line break
+  html = html.replace(/(\n\s*)+/g, '<br/>');
+  
+  return html;
 };
 
 const getWebviewContent = (analysis: any, originalCode: string = ''): string => {
@@ -200,7 +227,10 @@ const getWebviewContent = (analysis: any, originalCode: string = ''): string => 
     .code-secure { background: rgba(76, 175, 80, 0.05); border-left: 3px solid #4CAF50; }
     .copy-btn { background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 500; margin-top: 12px; transition: all 0.2s; }
     .copy-btn:hover { background: #45a049; transform: translateY(-1px); }
-    .explanation-box { background: var(--vscode-textBlockQuote-background); border-left: 3px solid var(--vscode-textBlockQuote-border); padding: 12px; border-radius: 4px; font-size: 12px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; }
+    .explanation-box { background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(76, 175, 80, 0.02) 100%); border-left: 3px solid #4CAF50; padding: 16px; border-radius: 4px; font-size: 12px; line-height: 1.8; word-wrap: break-word; }
+    .explanation-box code { background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', 'Menlo', monospace; font-size: 11px; }
+    .explanation-box strong { color: #4CAF50; font-weight: 600; }
+    .explanation-box em { color: var(--vscode-editor-foreground); font-style: italic; }
     .vuln-text { font-size: 12px; line-height: 1.6; color: var(--vscode-editor-foreground); }
   `;
 
@@ -209,7 +239,7 @@ const getWebviewContent = (analysis: any, originalCode: string = ''): string => 
     .replace(/\*\*/g, '</strong>')
     .replace(/\n/g, '<br/>');
 
-  const explanationHtml = explanation ? '<div class="section"><div class="section-header"><span class="section-icon">📚</span><span class="section-title">How to Fix</span></div><div class="explanation-box">' + escapeHtmlStr(explanation) + '</div></div>' : '';
+  const explanationHtml = explanation ? '<div class="section"><div class="section-header"><span class="section-icon">📚</span><span class="section-title">How to Fix</span></div><div class="explanation-box">' + parseMarkdownToHtml(explanation) + '</div></div>' : '';
   const errorHtml = error ? '<div class="section"><div style="background: rgba(255,107,107,0.1); border: 1px solid #FF6B6B; color: #FF6B6B; padding: 12px; border-radius: 6px; font-size: 12px;">Error: ' + escapeHtmlStr(error) + '</div></div>' : '';
 
   return `<!DOCTYPE html>
@@ -217,7 +247,7 @@ const getWebviewContent = (analysis: any, originalCode: string = ''): string => 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DeVAIC Analysis</title>
+  <title>AurIx Analysis</title>
   <style>${cssStyles}</style>
 </head>
 <body>
@@ -227,7 +257,7 @@ const getWebviewContent = (analysis: any, originalCode: string = ''): string => 
         <div class="header-icon">🔒</div>
         <div>
           <h1>Security Analysis</h1>
-          <p>Powered by DeVAIC Vulnerability Detection</p>
+          <p>Powered by AurIx Vulnerability Detection</p>
         </div>
       </div>
     </div>
@@ -361,10 +391,10 @@ function escapeHtml(text: string): string {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log('DeVAIC extension activating');
+  console.log('AurIx extension activating');
 
   if (!diagCollection) {
-    diagCollection = vscode.languages.createDiagnosticCollection('devaic');
+    diagCollection = vscode.languages.createDiagnosticCollection('aurix');
   }
 
   const changeDisposable = vscode.workspace.onDidChangeTextDocument(async (event) => {
@@ -388,7 +418,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(changeDisposable, saveDisposable, closeDisposable);
   if (diagCollection) context.subscriptions.push(diagCollection);
 
-  console.log('DeVAIC activated');
+  console.log('AurIx activated');
 }
 
 export function deactivate() {
