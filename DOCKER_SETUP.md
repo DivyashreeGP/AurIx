@@ -37,7 +37,7 @@ This guide explains how to run AurIx using Docker for complete platform independ
 ### 1. **Start All Services**
 
 ```bash
-cd vulnerability-detection-bhavani
+cd AurIx
 docker-compose up -d
 ```
 

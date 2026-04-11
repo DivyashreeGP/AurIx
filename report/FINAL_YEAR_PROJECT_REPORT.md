@@ -1075,7 +1075,7 @@ Detection Module:
 ```bash
 # 1. Clone repository
 git clone [repository-url]
-cd vulnerability-detection-bhavani
+cd AurIx
 
 # 2. Create virtual environment
 python -m venv venv
