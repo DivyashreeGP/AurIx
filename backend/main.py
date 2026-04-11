@@ -57,10 +57,12 @@ def analyze(data: CodeInput):
     code = data.code
     uid = str(uuid.uuid4())
 
-    # project root = DeVAIC-main
+    # project root = AurIx-main
     root = Path(__file__).resolve().parent.parent
+    temp_dir = root / "temp_files"
+    temp_dir.mkdir(exist_ok=True)
 
-    temp_file = root / f"temp_{uid}.py"
+    temp_file = temp_dir / f"temp_{uid}.py"
     out_file = root / f"results/temp_{uid}.json"
 
     # save incoming code
@@ -159,7 +161,7 @@ def analyze(data: CodeInput):
     except:
         pass
 
-    print(f"DeVAIC Backend: Detected {len(issues)} vulnerabilities")
+    print(f"AurIx Backend: Detected {len(issues)} vulnerabilities")
     return {"issues": issues}
 
 
@@ -190,12 +192,12 @@ def analyze_with_ai(request: AnalysisRequest):
             )
             vulnerabilities.append(vuln)
         
-        print(f"DeVAIC: Processing {len(vulnerabilities)} vulnerabilities...")
+        print(f"AurIx: Processing {len(vulnerabilities)} vulnerabilities...")
         
         # Try to use local AI if available
         if LOCAL_AI_AVAILABLE:
             try:
-                print(f"DeVAIC: Attempting to generate analysis with Ollama...")
+                print(f"AurIx: Attempting to generate analysis with Ollama...")
                 
                 # Test Ollama connection
                 import requests
@@ -214,10 +216,10 @@ def analyze_with_ai(request: AnalysisRequest):
                     return generate_template_response(code, issues)
                 
                 # Generate with AI
-                print(f"DeVAIC: Generating explanation...")
+                print(f"AurIx: Generating explanation...")
                 explanation_response = generate_explanation(code, vulnerabilities)
                 
-                print(f"DeVAIC: Generating secure code...")
+                print(f"AurIx: Generating secure code...")
                 secure_code_response = generate_secure_code(code, vulnerabilities)
                 
                 # Parse explanation
@@ -254,10 +256,10 @@ def analyze_with_ai(request: AnalysisRequest):
             
             except Exception as e:
                 print(f"✗ Local AI error: {str(e)}")
-                print("DeVAIC: Falling back to template analysis")
+                print("AurIx: Falling back to template analysis")
                 return generate_template_response(code, issues)
         else:
-            print("DeVAIC: Local AI Engine not available - using template response")
+            print("AurIx: Local AI Engine not available - using template response")
             return generate_template_response(code, issues)
     
     except Exception as e:

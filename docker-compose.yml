@@ -12,7 +12,7 @@ services:
     volumes:
       - ./results:/app/results
       - ./temp_files:/app/temp_files
-      - ./version_2.0/ruleset:/app/version_2.0/ruleset:ro
+      - ./Rule_engine/ruleset:/app/Rule_engine/ruleset:ro
     environment:
       - PYTHONUNBUFFERED=1
       - OLLAMA_ENDPOINT=http://ollama:11434

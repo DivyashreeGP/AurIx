@@ -132,7 +132,7 @@ Each rule file contains patterns that the backend's `detect.py` scans for in rea
 
 ### **1. Copy Rulesets to Your Project**
 ```bash
-cp -r version_2.0/ruleset/* /path/to/your/detector/rulesets/
+cp -r Rule_engine/ruleset/* /path/to/your/detector/rulesets/
 ```
 
 ### **2. Update Backend to Load New Rules**

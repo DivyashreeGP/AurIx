@@ -1,8 +1,8 @@
-This repository contains **two versions** of the code related to the paper **DeVAIC: A Tool for Security Assessment of AI-generated Code** accepted for publication in **Information and Software Technology** (**IST**) journal.
+This repository contains **two versions** of the code related to the project **AurIx: A Tool for Security Assessment of AI-generated Code**.
 
 ## Description
 
-**DeVAIC** (**De**tection of **V**ulnerabilities  in **AI**-generated **C**ode) is a fast static analysis tool for detecting vulnerabilities in code written in Python language.
+**AurIx** is a fast static analysis tool for detecting vulnerabilities in code written in Python language.
 
 
 ## 📁 Repository Structure
@@ -10,7 +10,7 @@ This repository contains **two versions** of the code related to the paper **DeV
 - **`version_1.0/`**: Original version of the detection tool. It features:
   - A basic code structure
   - Vulnerability detection applied **only to single-line code snippets**
-- **`version_2.0/`**: Updated and improved version of the tool.  This version includes:
+- **`Rule_engine/`**: Updated and improved rule engine for vulnerability detection.rability detection. This version includes:
   - A reorganized code structure for better modularity and maintainability
   - New and extended detection rules
   - Broader coverage of vulnerability types
@@ -34,7 +34,7 @@ The rules cover a range of vulnerabilities, including but not limited to:
 - Insecure deserialization
 - Command injection
 - Improper input validation
-- And more (see `version_2.0/ruleset/` for the full list)
+- And more (see `Rule_engine/ruleset/` for the full list)
 
 
 ## 📌 Notes

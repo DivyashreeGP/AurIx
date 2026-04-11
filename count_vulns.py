@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-ruleset_dir = Path('version_2.0/ruleset')
+ruleset_dir = Path('Rule_engine/ruleset')
 total_vulns = 0
 vuln_by_file = {}
 

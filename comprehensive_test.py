@@ -9,7 +9,7 @@ import requests
 import json
 
 print("=" * 70)
-print("DeVAIC: COMPLETE TRANSFORMATION TEST")
+print("AurIx: COMPLETE TRANSFORMATION TEST")
 print("=" * 70)
 
 # Test different vulnerability types

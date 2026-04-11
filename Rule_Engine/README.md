@@ -48,7 +48,7 @@ chmod u+x *.sh
 
 ### Input file
 
-Move the file to analyze (e.g., YOUR_INPUT_FILE.txt or YOUR_SCRIPT.py) into the directory ``version_2.0/input``.
+Move the file to analyze (e.g., YOUR_INPUT_FILE.txt or YOUR_SCRIPT.py) into the directory ``Rule_engine/input``.
 
 
 ### 🎯Running DeVAIC 
@@ -72,7 +72,7 @@ Move the file to analyze (e.g., YOUR_INPUT_FILE.txt or YOUR_SCRIPT.py) into the 
 >  ```
 
 
-At the end of execution, the tool generates a report file which can be found at path ``version_2.0/results/[timestamp]_[YOUR_INPUT_FILE].json``. 
+At the end of execution, the tool generates a report file which can be found at path ``Rule_engine/results/[timestamp]_[YOUR_INPUT_FILE].json``. 
 
 
 ## 💻 Practical Usage Example 

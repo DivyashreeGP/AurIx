@@ -1,7 +1,7 @@
 import os, re, json, shutil, time
 from pathlib import Path
 
-RULESET_DIR = Path("version_2.0/ruleset")
+RULESET_DIR = Path("Rule_engine/ruleset")
 
 VALID_ESCAPES = set(list("AbBdDsSwWZfnrtvu0123456789") + [ "\\", ".", "^", "$", "*", "+", "?", "{", "}", "[", "]", "(", ")", "|"])
 

@@ -1,7 +1,7 @@
-# DeVAIC AI Analysis Setup Guide
+# AurIx AI Analysis Setup Guide
 
 ## Overview
-Your DeVAIC extension now includes real-time vulnerability detection with AI-powered analysis and secure code fixes!
+Your AurIx extension now includes real-time vulnerability detection with AI-powered analysis and secure code fixes!
 
 ## Features
 ✅ **Real-time Detection** - Detects vulnerabilities as you type  
@@ -25,7 +25,7 @@ Your DeVAIC extension now includes real-time vulnerability detection with AI-pow
   - 📚 **Explanation** - Step-by-step explanation of fixes
 
 ### 3. **Manual Trigger**
-- Run command: `DeVAIC: Analyze with AI` (Ctrl+Shift+A on Windows/Linux, Cmd+Shift+A on Mac)
+- Run command: `AurIx: Analyze with AI` (Ctrl+Shift+A on Windows/Linux, Cmd+Shift+A on Mac)
 
 ## Setup Requirements
 
@@ -132,7 +132,7 @@ You'll see:
 Edit `backend/main.py` in the `analyze_with_ai()` function to customize the analysis prompt.
 
 ### Change Detection Rules
-Edit JSON files in `version_2.0/ruleset/` to add/modify detection patterns.
+Edit JSON files in `Rule_engine/ruleset/` to add/modify detection patterns.
 
 ### Customize UI
 Edit the HTML/CSS in `extension.ts` in the `getWebviewContent()` function.
@@ -146,4 +146,4 @@ Edit the HTML/CSS in `extension.ts` in the `getWebviewContent()` function.
 
 ---
 
-For questions or issues, check the console output: `View → Output → DeVAIC`
+For questions or issues, check the console output: `View → Output → AurIx`

@@ -1,4 +1,4 @@
-# Quick Start Guide - DeVAIC AI Analysis
+# Quick Start Guide - AurIx AI Analysis
 
 ## 🚀 Getting Started in 5 Minutes
 
@@ -45,7 +45,7 @@ Press `Ctrl+S` (or `Cmd+S` on Mac) to save.
 
 **Expected Result:**
 1. Red squiggly line appears under `pickle.loads`
-2. A new panel opens on the right with DeVAIC Analysis
+2. A new panel opens on the right with AurIx Analysis
 3. You'll see:
    - **🔍 Vulnerability Analysis**: Explains why this is dangerous
    - **✅ Secure Code**: Shows fixed version using `json` instead
@@ -74,7 +74,7 @@ Press `Ctrl+S` (or `Cmd+S` on Mac) to save.
 | **Extension** | `vscode_extension/vs-extension/src/extension.ts` | Detects issues, calls backend |
 | **Backend API** | `backend/main.py` | Runs detection engine, calls Claude |
 | **Detection** | `detect.py` | Scans for vulnerabilities |
-| **Rules** | `version_2.0/ruleset/*.json` | Defines vulnerability patterns |
+| **Rules** | `Rule_engine/ruleset/*.json` | Defines vulnerability patterns |
 | **UI** | `extension.ts` (webview) | Shows analysis in panel |
 
 ## 🧪 Test Cases
@@ -167,7 +167,7 @@ Before troubleshooting, verify:
 1. Try the test cases above
 2. If it works - share it! 🎉
 3. If issues - check troubleshooting section
-4. Want to customize? Edit rules in `version_2.0/ruleset/`
+4. Want to customize? Edit rules in `Rule_engine/ruleset/`
 
 ---
 

@@ -2,7 +2,7 @@
 import json, re, time, os, sys, argparse, ast
 from pathlib import Path
 
-RULESET_DIR = Path("version_2.0/ruleset")
+RULESET_DIR = Path("Rule_engine/ruleset")
 DEFAULT_EXCLUDES = {".git", ".venv", "venv", "__pycache__", "node_modules", "results"}
 
 # ---------- TAINT (AST) ----------
@@ -206,7 +206,7 @@ def save_report(data, out_path):
 
 # ---------- MAIN ----------
 def main():
-    ap = argparse.ArgumentParser(description="DeVAIC Scanner (regex + AST taint)")
+    ap = argparse.ArgumentParser(description="AurIx Scanner (regex + AST taint)")
     ap.add_argument("path", help="File or folder to scan")
     ap.add_argument("-o", "--out", default="results/report.json", help="Output JSON path")
     ap.add_argument("--only-issues", action="store_true", help="Omit non-vulnerable lines")
