@@ -536,7 +536,7 @@ pytest tests/ -v --cov=. --cov-report=html
 
 ### 8.1 Coverage Enhancements
 
-1. **Rule Loading Tests** - Create sample rule files in Rule_engine/ruleset/
+1. **Rule Loading Tests** - Create sample rule files in Rule_Engine/ruleset/
 2. **Backend Coverage** - Add tests for imports and error handlers (lines 1-55)
 3. **Detect.py Coverage** - Additional tests for main() function and CLI
 4. **AI Module Tests** - Test reasoning.py and secure_generator.py if Ollama available

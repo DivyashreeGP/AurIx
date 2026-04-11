@@ -132,7 +132,7 @@ You'll see:
 Edit `backend/main.py` in the `analyze_with_ai()` function to customize the analysis prompt.
 
 ### Change Detection Rules
-Edit JSON files in `Rule_engine/ruleset/` to add/modify detection patterns.
+Edit JSON files in `Rule_Engine/ruleset/` to add/modify detection patterns.
 
 ### Customize UI
 Edit the HTML/CSS in `extension.ts` in the `getWebviewContent()` function.

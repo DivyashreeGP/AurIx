@@ -10,7 +10,7 @@ This repository contains **two versions** of the code related to the project **A
 - **`version_1.0/`**: Original version of the detection tool. It features:
   - A basic code structure
   - Vulnerability detection applied **only to single-line code snippets**
-- **`Rule_engine/`**: Updated and improved rule engine for vulnerability detection.rability detection. This version includes:
+- **`Rule_Engine/`**: Updated and improved rule engine for vulnerability detection.rability detection. This version includes:
   - A reorganized code structure for better modularity and maintainability
   - New and extended detection rules
   - Broader coverage of vulnerability types
@@ -34,7 +34,7 @@ The rules cover a range of vulnerabilities, including but not limited to:
 - Insecure deserialization
 - Command injection
 - Improper input validation
-- And more (see `Rule_engine/ruleset/` for the full list)
+- And more (see `Rule_Engine/ruleset/` for the full list)
 
 
 ## 📌 Notes

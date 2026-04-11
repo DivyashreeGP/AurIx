@@ -2,7 +2,7 @@
 import json, re, time, os, sys, argparse, ast
 from pathlib import Path
 
-RULESET_DIR = Path("Rule_engine/ruleset")
+RULESET_DIR = Path("Rule_Engine/ruleset")
 DEFAULT_EXCLUDES = {".git", ".venv", "venv", "__pycache__", "node_modules", "results"}
 
 # ---------- TAINT (AST) ----------

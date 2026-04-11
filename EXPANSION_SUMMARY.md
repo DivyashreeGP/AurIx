@@ -203,7 +203,7 @@ TOTAL:                        537 rules ✅
 
 ### **1. Check the new files**
 ```bash
-ls -la Rule_engine/ruleset/*.json | wc -l
+ls -la Rule_Engine/ruleset/*.json | wc -l
 # Should show 41 files
 ```
 

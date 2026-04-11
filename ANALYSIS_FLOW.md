@@ -19,7 +19,7 @@
                          ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │  detect.py (Vulnerability Scanner)                              │
-│  - Pattern matching against Rule_engine/ruleset/*.json files    │
+│  - Pattern matching against Rule_Engine/ruleset/*.json files    │
 │  - AST analysis for taint tracking                              │
 │  - Returns: list of detected vulnerabilities                    │
 └────────────────────────┬────────────────────────────────────────┘

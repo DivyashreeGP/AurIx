@@ -74,7 +74,7 @@ Press `Ctrl+S` (or `Cmd+S` on Mac) to save.
 | **Extension** | `vscode_extension/vs-extension/src/extension.ts` | Detects issues, calls backend |
 | **Backend API** | `backend/main.py` | Runs detection engine, calls Claude |
 | **Detection** | `detect.py` | Scans for vulnerabilities |
-| **Rules** | `Rule_engine/ruleset/*.json` | Defines vulnerability patterns |
+| **Rules** | `Rule_Engine/ruleset/*.json` | Defines vulnerability patterns |
 | **UI** | `extension.ts` (webview) | Shows analysis in panel |
 
 ## 🧪 Test Cases
@@ -167,7 +167,7 @@ Before troubleshooting, verify:
 1. Try the test cases above
 2. If it works - share it! 🎉
 3. If issues - check troubleshooting section
-4. Want to customize? Edit rules in `Rule_engine/ruleset/`
+4. Want to customize? Edit rules in `Rule_Engine/ruleset/`
 
 ---
 
