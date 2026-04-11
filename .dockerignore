@@ -1,0 +1,51 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Node modules (for extension)
+vscode_extension/vs-extension/node_modules/
+vscode_extension/vs-extension/out/
+
+# Temporary files
+temp_*.py
+temp_files/
+*.log
+.pytest_cache/
+
+# Results (will be mounted as volume)
+results/
+
+# Test/debug files
+test_*.py
+debug_*.py
+comprehensive_test.py
+
+# Documentation
+*.md
+PROOF_FILES_INDEX.md
+TESTING_EVALUATION_COMPLETE.md
