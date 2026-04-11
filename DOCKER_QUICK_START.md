@@ -4,13 +4,13 @@
 
 ### Windows
 ```powershell
-cd c:\Major_Project\Integration\vulnerability-detection-bhavani
+cd c:\Major_Project\Integration\AurIx
 .\docker-start.bat
 ```
 
 ### macOS/Linux
 ```bash
-cd vulnerability-detection-bhavani
+cd AurIx
 chmod +x docker-start.sh
 ./docker-start.sh
 ```
