@@ -280,28 +280,10 @@ const getWebviewContent = (analysis: any, originalCode: string = ''): string => 
       <div class="vuln-text">${vulnerabilitiesHtml}</div>
     </div>
     
-    <div class="section">
-      <div class="section-header">
-        <span class="section-icon">✅</span>
-        <span class="section-title">Secure Code</span>
-      </div>
-      <div class="code-block code-secure" id="secureCodeBlock">${escapeHtmlStr(secureCode || code)}</div>
-      ${secureCode && secureCode !== code ? '<button class="copy-btn" onclick="copySecureCode()">📋 Copy Secure Code</button>' : ''}
-    </div>
-    
     ${explanationHtml}
   </div>
 
   <script>
-    function copySecureCode() {
-      const block = document.getElementById('secureCodeBlock');
-      const text = block.innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        alert('✓ Secure code copied!');
-      }).catch(err => {
-        alert('Failed to copy');
-      });
-    }
   </script>
 </body>
 </html>`;
