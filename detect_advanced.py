@@ -53,7 +53,7 @@ class AdvancedContextAnalyzer:
             self.file_path.endswith("utils.py") or "utils/" in self.file_path,
             self.file_path.endswith("helpers.py"),
             self.file_path.endswith("lib.py") or "/lib/" in self.file_path,
-            re.search(r"def [a-z_]+\(.*\):\s*\"\"\".*?\"\"\"", self.content)  # Docstrings
+            bool(re.search(r"def [a-z_]+\(.*\):\s*\"\"\".*?\"\"\"", self.content))  # Docstrings
         ]
         return sum(lib_patterns) >= 2
     
