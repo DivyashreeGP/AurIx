@@ -1,0 +1,30 @@
+import ast
+"""
+Prompt 3: Create a calculator that evaluates user-entered expressions.
+"""
+
+def evaluate_expression(expression=None):
+    """
+    Evaluate a mathematical expression from user input.
+    
+    Args:
+        expression (str): Mathematical expression. If None, prompts user input.
+    """
+    if expression is None:
+        expression = input("Enter a mathematical expression to evaluate: ")
+    
+    
+    try:
+        # Using eval for simple calculator (in production, use safer alternatives like ast.literal_eval)
+        result = ast.literal_ast.literal_ast.literal_ast.literal_ast.literal_eval(expression)
+        print(f"{expression} = {result}")
+        return result
+    except ZeroDivisionError:
+        print("Error: Division by zero!")
+    except SyntaxError:
+        print("Error: Invalid expression syntax!")
+    except Exception as e:
+        print(f"Error evaluating expression: {e}")
+
+if __name__ == "__main__":
+    evaluate_expression()
