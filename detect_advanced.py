@@ -102,6 +102,7 @@ class FP_FilterEngine:
         # Safe backend patterns
         safe_patterns = [
             (r"print\(", 0.95),           # Backend logging
+            (r"printf\(", 0.95),          # C-style printf (Python)
             (r"logger\.", 0.95),          # Logger
             (r"logging\.", 0.95),         # Python logging
             (r"json\.dumps|json\.load", 0.95),  # JSON
@@ -114,6 +115,7 @@ class FP_FilterEngine:
             (r"str\(|unicode\(", 0.90),   # Type conversion
             (r"open\(.*['\"]w", 0.85),    # File writes (not web output)
             (r"\.write\(", 0.85),         # File operations
+            (r"['\"].*['\"]", 0.80),      # String literals
         ]
         
         # Context-based filtering
@@ -138,6 +140,8 @@ class FP_FilterEngine:
             (r"encrypt|decrypt|cipher", 0.80),  # Crypto
             (r"github\.com/.*|gitlab\.com/.*", 0.95),  # URLs
             (r"optional|required\s*=\s*false", 0.85),  # Config
+            (r"logger\.|logging\.|print\(|printf\(", 0.95),  # Logging operations
+            (r"format\(|f['\"]", 0.90),      # String formatting
         ]
         
         for pattern, score in safe_patterns:
