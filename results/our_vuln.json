@@ -1,0 +1,27 @@
+{
+    "test_vulnerable.py": [
+        {
+            "snippet_number": 20,
+            "original_code": "password = \"secret123\"",
+            "vulnerable": true,
+            "vulnerabilities_summary": [
+                "Hard-coded Credentials"
+            ],
+            "comments": [],
+            "execution_time": "0.0000",
+            "details": [
+                {
+                    "rule_id": "HARDCODED_CREDENTIALS-001",
+                    "vulnerabilities": [
+                        "Hard-coded Credentials"
+                    ],
+                    "cwe": "CWE-798",
+                    "confidence": 0.88,
+                    "comment": "Hard-coded secret assigned directly in source code."
+                }
+            ],
+            "confidence": 0.88,
+            "category": "Hard-coded Credentials"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "temp_vuln2.py": [
+        {
+            "line": 11,
+            "rules": [
+                "SQL-001",
+                "SQL-PARAMETRIZED-QUERY-002"
+            ],
+            "categories": [
+                "INJC"
+            ],
+            "code": "cursor.execute(f'SELECT * FROM users WHERE id = {user_id}')  # SQL Injection"
+        }
+    ]
+}

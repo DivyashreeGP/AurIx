@@ -1,0 +1,84 @@
+{
+    "temp_vuln2.py": [
+        {
+            "line": 1,
+            "rules": [
+                ""
+            ],
+            "categories": [],
+            "code": "from flask import Flask, request"
+        },
+        {
+            "line": 2,
+            "rules": [
+                ""
+            ],
+            "categories": [],
+            "code": "import sqlite3"
+        },
+        {
+            "line": 4,
+            "rules": [
+                ""
+            ],
+            "categories": [],
+            "code": "app = Flask(__name__)"
+        },
+        {
+            "line": 6,
+            "rules": [
+                ""
+            ],
+            "categories": [],
+            "code": "@app.route('/user')"
+        },
+        {
+            "line": 7,
+            "rules": [
+                ""
+            ],
+            "categories": [],
+            "code": "def get_user():"
+        },
+        {
+            "line": 8,
+            "rules": [
+                ""
+            ],
+            "categories": [],
+            "code": "user_id = request.args.get('id')  # This is tainted"
+        },
+        {
+            "line": 9,
+            "rules": [
+                ""
+            ],
+            "categories": [],
+            "code": "conn = sqlite3.connect('users.db')"
+        },
+        {
+            "line": 10,
+            "rules": [
+                ""
+            ],
+            "categories": [],
+            "code": "cursor = conn.cursor()"
+        },
+        {
+            "line": 11,
+            "rules": [
+                ""
+            ],
+            "categories": [],
+            "code": "cursor.execute(f'SELECT * FROM users WHERE id = {user_id}')  # SQL Injection"
+        },
+        {
+            "line": 12,
+            "rules": [
+                ""
+            ],
+            "categories": [],
+            "code": "return str(cursor.fetchone())"
+        }
+    ]
+}

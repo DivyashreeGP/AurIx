@@ -1,0 +1,55 @@
+{
+    "test_vulnerable.py": [
+        {
+            "line": 5,
+            "rules": [
+                "SQL-PARAMETRIZED-QUERY-002"
+            ],
+            "categories": [
+                "INJC"
+            ],
+            "code": "query = \"SELECT * FROM users WHERE id = \" + user_input"
+        },
+        {
+            "line": 11,
+            "rules": [
+                "OS-SYSTEM-002"
+            ],
+            "categories": [
+                "SECM"
+            ],
+            "code": "os.system(\"ls \" + user_input)"
+        },
+        {
+            "line": 20,
+            "rules": [
+                "CREDENTIALS-001"
+            ],
+            "categories": [
+                "IDAF"
+            ],
+            "code": "password = \"secret123\""
+        },
+        {
+            "line": 24,
+            "rules": [
+                "EVAL-001"
+            ],
+            "categories": [
+                "INJC"
+            ],
+            "code": "eval(user_input)"
+        },
+        {
+            "line": 29,
+            "rules": [
+                "PICKLE-LOADS-001",
+                "PICKLE-FAILURE-001"
+            ],
+            "categories": [
+                "SDIF"
+            ],
+            "code": "obj = pickle.loads(data)"
+        }
+    ]
+}

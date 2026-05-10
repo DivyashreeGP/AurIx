@@ -1,0 +1,39 @@
+{
+    "C:\\Users\\Divyashree G P\\OneDrive\\Desktop\\vulnerability-detection-bhavani\\test_temp_code.py": [
+        {
+            "line": 8,
+            "rules": [
+                "PICKLE-LOADS-001",
+                "PICKLE-FAILURE-001"
+            ],
+            "categories": [
+                "SDIF"
+            ],
+            "code": "obj = pickle.loads(user_data)"
+        },
+        {
+            "line": 13,
+            "rules": [
+                "MD5-001",
+                "ENCODE-DECODE-001"
+            ],
+            "categories": [
+                "CRYF",
+                "SDIF"
+            ],
+            "code": "return hashlib.md5(password.encode()).hexdigest()"
+        },
+        {
+            "line": 17,
+            "rules": [
+                "RANDOM-001",
+                "RANDOM-FOR-SECURITY-001"
+            ],
+            "categories": [
+                "CRYF",
+                "CRYP"
+            ],
+            "code": "return str(random.randint(1000000, 9999999))"
+        }
+    ]
+}

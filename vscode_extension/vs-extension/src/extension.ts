@@ -69,7 +69,7 @@ const analyzeCode = async (doc: vscode.TextDocument, triggerAI: boolean = false)
         const message = `${typeText}: ${descText}`;
 
         const sevText = (issue && issue.severity) ? String(issue.severity).toLowerCase() : 'warning';
-        const severity = sevText === 'high' || sevText === 'critical' ? vscode.DiagnosticSeverity.Error : vscode.DiagnosticSeverity.Warning;
+        const severity = vscode.DiagnosticSeverity.Warning;
 
         const diagnostic = new vscode.Diagnostic(range, message, severity);
         diagnostics.push(diagnostic);
@@ -88,6 +88,7 @@ const analyzeCode = async (doc: vscode.TextDocument, triggerAI: boolean = false)
     console.log(`AurIx: set ${diagnostics.length} diagnostic(s) for ${doc.uri.fsPath}`);
 
     if (triggerAI && result.issues && result.issues.length > 0) {
+      showRuleEnginePanel(codeToSend, result.issues);
       await analyzeWithAI(codeToSend, result.issues);
     }
   } catch (err: any) {
@@ -107,6 +108,7 @@ const analyzeWithAI = async (code: string, issues: any[]) => {
     
     const endpoints = ['http://localhost:8000/analyze-with-ai', 'http://127.0.0.1:8000/analyze-with-ai'];
     let resp: any = null;
+    let lastErr: any = null;
     
     for (let i = 0; i < endpoints.length; i++) {
       try {
@@ -114,12 +116,13 @@ const analyzeWithAI = async (code: string, issues: any[]) => {
         console.log(`AurIx AI: response from ${endpoints[i]}`);
         break;
       } catch (err: any) {
+        lastErr = err;
         console.warn(`AurIx AI: request to ${endpoints[i]} failed`, err.message);
       }
     }
     
     if (!resp) {
-      vscode.window.showErrorMessage('Failed to connect to AI analysis engine');
+      console.warn('AurIx AI: Failed to connect, showing rule engine results only');
       return;
     }
     
@@ -131,10 +134,16 @@ const analyzeWithAI = async (code: string, issues: any[]) => {
       return;
     }
     
-    showAnalysisPanel('Vulnerability Analysis', analysisResult, code);
+    // Update the existing panel with AI analysis
+    if (analysisPanel) {
+      const html = getTabbedPanelContent(code, issues, analysisResult, false);
+      analysisPanel.webview.html = html;
+      currentAnalysisData = { analysis: analysisResult, code, issues };
+    }
   } catch (err: any) {
     console.error('AurIx AI: error', err);
-    vscode.window.showErrorMessage('AI analysis failed: ' + (err.message || 'Unknown error'));
+    const errorMsg = err.response?.data?.detail || err.message || 'Unknown error';
+    console.warn('AurIx AI: Error occurred, keeping rule engine results visible');
   }
 };
 
@@ -144,20 +153,40 @@ const showSecureMessage = () => {
     analysisPanel = undefined;
   }
   
-  analysisPanel = vscode.window.createWebviewPanel('aurix-analysis', 'AurIx Analysis', vscode.ViewColumn.Beside, { enableScripts: true });
+  analysisPanel = vscode.window.createWebviewPanel('aurix-analysis', 'AurIx', vscode.ViewColumn.Beside, { enableScripts: true });
   analysisPanel.webview.html = getSecureMessageContent();
 };
 
-const showAnalysisPanel = (title: string, analysis: any, code: string) => {
+const showRuleEnginePanel = (code: string, issues: any[]) => {
   if (analysisPanel) {
     analysisPanel.dispose();
     analysisPanel = undefined;
   }
   
-  analysisPanel = vscode.window.createWebviewPanel('aurix-analysis', 'AurIx Analysis', vscode.ViewColumn.Beside, { enableScripts: true });
-  const html = getWebviewContent(analysis, code);
+  analysisPanel = vscode.window.createWebviewPanel('aurix-analysis', 'AurIx', vscode.ViewColumn.Beside, { enableScripts: true });
+  const html = getTabbedPanelContent(code, issues, null, true);
   analysisPanel.webview.html = html;
-  currentAnalysisData = { analysis, code };
+  currentAnalysisData = { code, issues };
+};
+
+const showLoadingPanel = () => {
+  if (analysisPanel) {
+    analysisPanel.dispose();
+    analysisPanel = undefined;
+  }
+  
+  analysisPanel = vscode.window.createWebviewPanel('aurix-analysis', 'AurIx', vscode.ViewColumn.Beside, { enableScripts: true });
+  analysisPanel.webview.html = getLoadingContent();
+};
+
+const showErrorPanel = (title: string, message: string) => {
+  if (analysisPanel) {
+    analysisPanel.dispose();
+    analysisPanel = undefined;
+  }
+  
+  analysisPanel = vscode.window.createWebviewPanel('aurix-analysis', 'AurIx', vscode.ViewColumn.Beside, { enableScripts: true });
+  analysisPanel.webview.html = getErrorContent(title, message);
 };
 
 const parseMarkdownToHtml = (text: string): string => {
@@ -187,19 +216,8 @@ const parseMarkdownToHtml = (text: string): string => {
   return html;
 };
 
-const getWebviewContent = (analysis: any, originalCode: string = ''): string => {
-  const analysisText = analysis.analysis || '';
-  const secureCode = analysis.secure_code || '';
-  const explanation = analysis.explanation || '';
-  const error = analysis.error || '';
-  const code = originalCode;
-
-  const escapeHtmlStr = (txt: string) => {
-    const map: {[key: string]: string} = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'};
-    return txt.replace(/[&<>"']/g, m => map[m]);
-  };
-
-  const cssStyles = `
+const getCommonStyles = (): string => {
+  return `
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
@@ -207,87 +225,265 @@ const getWebviewContent = (analysis: any, originalCode: string = ''): string => 
       color: var(--vscode-editor-foreground);
       line-height: 1.6;
     }
-    .container { max-width: 900px; margin: 0 auto; }
+    .container { max-width: 1000px; margin: 0 auto; }
     .header {
-      background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(76, 175, 80, 0.1) 100%);
-      border-bottom: 1px solid var(--vscode-panel-border);
-      padding: 24px 20px;
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(76, 175, 80, 0.08) 100%);
+      border-bottom: 2px solid #4CAF50;
+      padding: 20px;
     }
-    .header-content { display: flex; align-items: center; gap: 12px; }
-    .header-icon { font-size: 28px; }
-    .header h1 { font-size: 20px; font-weight: 600; color: var(--vscode-editor-foreground); }
-    .header p { font-size: 12px; color: var(--vscode-descriptionForeground); margin-top: 4px; }
-    .section { padding: 24px 20px; border-bottom: 1px solid var(--vscode-panel-border); }
-    .section:last-child { border-bottom: none; }
-    .section-header { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
-    .section-title { font-size: 14px; font-weight: 600; color: var(--vscode-editor-foreground); text-transform: uppercase; letter-spacing: 0.5px; }
+    .header h1 { font-size: 24px; font-weight: 700; color: #4CAF50; }
+    
+    .section { margin: 30px 20px; }
+    .section-header { 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid rgba(76, 175, 80, 0.3);
+    }
+    .section-title { 
+      font-size: 14px; 
+      font-weight: 700; 
+      color: #4CAF50;
+      text-transform: uppercase; 
+      letter-spacing: 1px;
+    }
     .section-icon { font-size: 18px; }
-    .code-block { background: var(--vscode-editor-background); border: 1px solid var(--vscode-panel-border); border-radius: 6px; padding: 12px; font-family: 'Monaco', 'Menlo', monospace; font-size: 12px; line-height: 1.5; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
-    .code-original { background: rgba(255, 107, 107, 0.05); border-left: 3px solid #FF6B6B; }
-    .code-secure { background: rgba(76, 175, 80, 0.05); border-left: 3px solid #4CAF50; }
-    .copy-btn { background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 500; margin-top: 12px; transition: all 0.2s; }
-    .copy-btn:hover { background: #45a049; transform: translateY(-1px); }
-    .explanation-box { background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(76, 175, 80, 0.02) 100%); border-left: 3px solid #4CAF50; padding: 16px; border-radius: 4px; font-size: 12px; line-height: 1.8; word-wrap: break-word; }
-    .explanation-box code { background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', 'Menlo', monospace; font-size: 11px; }
+
+    .code-block {
+      background: var(--vscode-editor-background);
+      border: 1px solid var(--vscode-panel-border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .code-original { background: rgba(255, 107, 107, 0.05); border-left: 4px solid #FF6B6B; }
+    .code-secure { background: rgba(76, 175, 80, 0.05); border-left: 4px solid #4CAF50; }
+
+    .copy-btn {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 500;
+      margin-top: 12px;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover { background: #45a049; }
+
+    .issues-list {
+      background: rgba(255, 107, 107, 0.05);
+      border-left: 4px solid #FF6B6B;
+      padding: 16px;
+      border-radius: 4px;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+    .issue-item {
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 107, 107, 0.2);
+    }
+    .issue-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .issue-type { color: #FF6B6B; font-weight: 600; }
+    .issue-line { color: var(--vscode-descriptionForeground); font-size: 11px; }
+    .issue-desc { color: var(--vscode-editor-foreground); margin-top: 4px; }
+
+    .explanation-box {
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(76, 175, 80, 0.02) 100%);
+      border-left: 4px solid #4CAF50;
+      padding: 16px;
+      border-radius: 4px;
+      font-size: 12px;
+      line-height: 1.8;
+      word-wrap: break-word;
+    }
+    .explanation-box code {
+      background: rgba(0,0,0,0.1);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 11px;
+    }
     .explanation-box strong { color: #4CAF50; font-weight: 600; }
-    .explanation-box em { color: var(--vscode-editor-foreground); font-style: italic; }
-    .vuln-text { font-size: 12px; line-height: 1.6; color: var(--vscode-editor-foreground); }
+
+    .no-ai-section {
+      background: rgba(255, 152, 0, 0.05);
+      border-left: 4px solid #FF9800;
+      padding: 16px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--vscode-editor-foreground);
+    }
   `;
+};
 
-  const vulnerabilitiesHtml = escapeHtmlStr(analysisText)
-    .replace(/\*\*Line/g, '<strong>Line')
-    .replace(/\*\*/g, '</strong>')
-    .replace(/\n/g, '<br/>');
+const getTabbedPanelContent = (code: string, issues: any[], analysis: any | null = null, loading: boolean = false): string => {
+  const escapeHtmlStr = (txt: string) => {
+    const map: {[key: string]: string} = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'};
+    return txt.replace(/[&<>"']/g, m => map[m]);
+  };
 
-  const explanationHtml = explanation ? '<div class="section"><div class="section-header"><span class="section-icon">📚</span><span class="section-title">How to Fix</span></div><div class="explanation-box">' + parseMarkdownToHtml(explanation) + '</div></div>' : '';
-  const errorHtml = error ? '<div class="section"><div style="background: rgba(255,107,107,0.1); border: 1px solid #FF6B6B; color: #FF6B6B; padding: 12px; border-radius: 6px; font-size: 12px;">Error: ' + escapeHtmlStr(error) + '</div></div>' : '';
+  const issuesHtml = issues.map((issue: any) => {
+    const typeText = issue.type || 'VULNERABILITY';
+    const lineNum = issue.line || '?';
+    const descText = issue.description || 'Security vulnerability detected';
+    return `
+      <div class="issue-item">
+        <div class="issue-type">⚠️ ${escapeHtmlStr(typeText)}</div>
+        <div class="issue-line">Line ${escapeHtmlStr(lineNum.toString())}</div>
+        <div class="issue-desc">${escapeHtmlStr(descText)}</div>
+      </div>
+    `;
+  }).join('');
+
+  const secureCode = analysis && analysis.secure_code ? analysis.secure_code : '';
+  const explanation = analysis && analysis.explanation ? analysis.explanation : '';
+  const secureCodeHtml = secureCode
+    ? `<div class="code-block code-secure">${escapeHtmlStr(secureCode)}</div><button class="copy-btn" onclick="copyToClipboard('${escapeHtmlStr(secureCode).replace(/'/g, "\\'")}')">Copy Secure Code</button>`
+    : '<div class="no-ai-section">No secure code suggestion available yet.</div>';
+  const explanationHtml = explanation
+    ? parseMarkdownToHtml(explanation)
+    : '<div class="no-ai-section">No explanation available yet.</div>';
+
+  const aiContentHtml = loading
+    ? `<div class="no-ai-section">⏳ <strong>AI analysis is in progress.</strong> Please wait while Gemini generates secure code and reasoning.</div>`
+    : analysis
+      ? `
+        <div class="section">
+          <div class="section-header">
+            <span class="section-icon">🛡️</span>
+            <span class="section-title">Secure Code</span>
+          </div>
+          ${secureCodeHtml}
+        </div>
+        <div class="section">
+          <div class="section-header">
+            <span class="section-icon">💡</span>
+            <span class="section-title">Reasoning & Fix Explanation</span>
+          </div>
+          <div class="explanation-box">${explanationHtml}</div>
+        </div>
+      `
+      : `<div class="no-ai-section">AI results are not available yet. Save the file or trigger analysis again to generate secure code and reasoning.</div>`;
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AurIx Analysis</title>
-  <style>${cssStyles}</style>
+  <title>AurIx Security Analysis</title>
+  <style>${getCommonStyles()}</style>
+  <style>
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      margin: 20px 20px 0;
+    }
+    .tab-button {
+      flex: 1;
+      padding: 10px 16px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: var(--vscode-editor-background);
+      color: var(--vscode-editor-foreground);
+      cursor: pointer;
+      font-weight: 600;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .tab-button.active {
+      border-color: #4CAF50;
+      background: rgba(76, 175, 80, 0.08);
+      box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.15);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+  </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div class="header-content">
-        <div class="header-icon">🔒</div>
-        <div>
-          <h1>Security Analysis</h1>
-          <p>Powered by AurIx Vulnerability Detection</p>
+      <h1>🔒 AurIx Security Analysis</h1>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-button active" data-tab="rule">Rule Engine</button>
+      <button class="tab-button" data-tab="ai">AI Model</button>
+    </div>
+
+    <div id="rule-tab" class="tab-panel active">
+      <div class="section">
+        <div class="section-header">
+          <span class="section-icon">📝</span>
+          <span class="section-title">Original Code</span>
+        </div>
+        <div class="code-block code-original">${escapeHtmlStr(code)}</div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-icon">🔍</span>
+          <span class="section-title">Vulnerabilities Detected (Rule Engine)</span>
+        </div>
+        <div class="issues-list">
+          ${issuesHtml}
         </div>
       </div>
     </div>
-    
-    ${errorHtml}
-    
-    <div class="section">
-      <div class="section-header">
-        <span class="section-icon">📝</span>
-        <span class="section-title">Original Code</span>
-      </div>
-      <div class="code-block code-original">${escapeHtmlStr(code)}</div>
+
+    <div id="ai-tab" class="tab-panel">
+      ${aiContentHtml}
     </div>
-    
-    <div class="section">
-      <div class="section-header">
-        <span class="section-icon">⚠️</span>
-        <span class="section-title">Vulnerabilities Detected</span>
-      </div>
-      <div class="vuln-text">${vulnerabilitiesHtml}</div>
-    </div>
-    
-    ${explanationHtml}
   </div>
 
   <script>
+    const buttons = document.querySelectorAll('.tab-button');
+    const panels = document.querySelectorAll('.tab-panel');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const panel = document.getElementById(btn.dataset.tab + '-tab');
+        if (panel) {
+          panel.classList.add('active');
+        }
+      });
+    });
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.style.background = '#45a049';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = '#4CAF50';
+        }, 2000);
+      });
+    }
   </script>
 </body>
 </html>`;
 };
+
+
 
 const getSecureMessageContent = (): string => {
   return `<!DOCTYPE html>
@@ -361,6 +557,162 @@ const getSecureMessageContent = (): string => {
     <p>No vulnerabilities detected in your code. Your implementation follows security best practices.</p>
     <div class="details">
       <strong>Keep it up!</strong> Continue following secure coding practices.
+    </div>
+  </div>
+</body>
+</html>`;
+};
+
+const getLoadingContent = (): string => {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Analysis in Progress</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--vscode-editor-background);
+      color: var(--vscode-editor-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      text-align: center;
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
+      border: 2px solid #4CAF50;
+      border-radius: 12px;
+      padding: 60px 40px;
+      max-width: 500px;
+      box-shadow: 0 8px 32px rgba(76, 175, 80, 0.1);
+    }
+    .spinner {
+      font-size: 60px;
+      margin-bottom: 20px;
+      animation: spin 1.5s linear infinite;
+    }
+    h1 {
+      font-size: 28px;
+      color: #4CAF50;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    p {
+      font-size: 16px;
+      color: var(--vscode-editor-foreground);
+      opacity: 0.9;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .status {
+      font-size: 13px;
+      color: var(--vscode-descriptionForeground);
+      padding-top: 20px;
+      border-top: 1px solid rgba(76, 175, 80, 0.2);
+      margin-top: 20px;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="spinner">🔄</div>
+    <h1>Analyzing with AI</h1>
+    <p>Processing vulnerability analysis using Gemini AI. This may take a moment...</p>
+    <div class="status">
+      <strong>Please wait</strong> while we generate secure code suggestions.
+    </div>
+  </div>
+</body>
+</html>`;
+};
+
+const getErrorContent = (title: string, message: string): string => {
+  const escapeHtmlStr = (txt: string) => {
+    const map: {[key: string]: string} = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'};
+    return txt.replace(/[&<>"']/g, m => map[m]);
+  };
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtmlStr(title)}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--vscode-editor-background);
+      color: var(--vscode-editor-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      text-align: center;
+      background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 107, 107, 0.05) 100%);
+      border: 2px solid #FF6B6B;
+      border-radius: 12px;
+      padding: 60px 40px;
+      max-width: 500px;
+      box-shadow: 0 8px 32px rgba(255, 107, 107, 0.1);
+    }
+    .icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 28px;
+      color: #FF6B6B;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    p {
+      font-size: 16px;
+      color: var(--vscode-editor-foreground);
+      opacity: 0.9;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .message-box {
+      background: rgba(255, 107, 107, 0.05);
+      border: 1px solid rgba(255, 107, 107, 0.2);
+      border-radius: 6px;
+      padding: 16px;
+      font-size: 13px;
+      color: var(--vscode-editor-foreground);
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .help-text {
+      font-size: 12px;
+      color: var(--vscode-descriptionForeground);
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 107, 107, 0.2);
+      margin-top: 20px;
+    }
+    .help-text strong { color: #FF6B6B; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">⚠️</div>
+    <h1>${escapeHtmlStr(title)}</h1>
+    <p>Unable to complete AI analysis at this time.</p>
+    <div class="message-box">${escapeHtmlStr(message)}</div>
+    <div class="help-text">
+      <strong>Note:</strong> Please check that the backend server is running and the Gemini API is properly configured.
     </div>
   </div>
 </body>

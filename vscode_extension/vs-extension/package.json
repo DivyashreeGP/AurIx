@@ -1,40 +1,54 @@
 {
   "name": "vs-extension",
-  "displayName": "DeVAIC Security Extension",
-  "description": "Real-time vulnerability detection for pasted code.",
+  "displayName": "AurIx Security Extension",
+  "description": "Real-time vulnerability detection for pasted Python code on save.",
   "version": "0.0.1",
-  "publisher": "devaic",
+  "publisher": "AurIx",
   "engines": {
-    "vscode": "^1.106.1"
+    "vscode": "^1.74.0"
   },
-  "categories": [
-    "Other"
+  "categories": ["Other"],
+  "activationEvents": [
+    "onLanguage:python"
   ],
-
-  "activationEvents": ["*"],
-
   "main": "./out/extension.js",
 
   "contributes": {
     "commands": [
       {
-        "command": "vs-extension.helloWorld",
-        "title": "Hello World"
-      },
-      {
-        "command": "devaic.analyzeWithAI",
-        "title": "DeVAIC: Analyze with AI",
-        "category": "DeVAIC"
+        "command": "AurIx.analyzeWithAI",
+        "title": "AurIx: Analyze with AI",
+        "category": "AurIx"
       }
     ],
+
     "keybindings": [
       {
-        "command": "devaic.analyzeWithAI",
+        "command": "AurIx.analyzeWithAI",
         "key": "ctrl+shift+a",
         "mac": "cmd+shift+a",
         "when": "editorTextFocus && resourceLangId == python"
       }
-    ]
+    ],
+
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "aurix-sidebar",
+          "title": "AurIx",
+          "icon": "resources/icon.png"
+        }
+      ]
+    },
+
+    "views": {
+      "aurix-sidebar": [
+        {
+          "id": "aurixView",
+          "name": "AurIx Analysis"
+        }
+      ]
+    }
   },
 
   "scripts": {
@@ -48,8 +62,8 @@
 
   "devDependencies": {
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.19.1",
-    "@types/vscode": "^1.106.1",
+    "@types/node": "^22.19.17",
+    "@types/vscode": "^1.74.0",
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.5.2",
     "eslint": "^9.39.1",

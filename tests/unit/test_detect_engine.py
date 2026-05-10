@@ -13,7 +13,7 @@ import tempfile
 project_root = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from detect import TaintVisitor, scan_line, load_rules, discover_targets, scan_file_regex
+from detect import TaintVisitor, scan_line, load_rules, discover_targets, scan_file_regex, scan_file
 
 
 class TestTaintVisitor:
@@ -275,6 +275,34 @@ class TestScanFileRegex:
             results, lines = scan_file_regex(test_file, rules)
             assert isinstance(results, list)
             assert isinstance(lines, list)
+
+
+class TestSemanticScanner:
+    """Test the new semantic AST scanner behavior"""
+
+    def test_scan_file_detects_code_injection(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            test_file = Path(tmpdir) / "vuln.py"
+            test_file.write_text("user_input = input()\nresult = eval(user_input)\n")
+
+            results, _ = scan_file(test_file)
+            assert any(r["details"][0]["rule_id"] == "CODE_INJECTION-001" for r in results)
+
+    def test_scan_file_ignores_safe_subprocess(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            test_file = Path(tmpdir) / "safe_subprocess.py"
+            test_file.write_text("import subprocess\nsubprocess.run(['ls', '-la'], shell=False)\n")
+
+            results, _ = scan_file(test_file)
+            assert all(r["details"][0]["rule_id"] != "COMMAND_INJECTION-004" for r in results)
+
+    def test_scan_file_detects_hardcoded_credentials(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            test_file = Path(tmpdir) / "secrets.py"
+            test_file.write_text("password = 'hunter2'\n")
+
+            results, _ = scan_file(test_file)
+            assert any(r["details"][0]["rule_id"] == "HARDCODED_CREDENTIALS-001" for r in results)
 
 
 if __name__ == "__main__":

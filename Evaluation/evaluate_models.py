@@ -15,8 +15,12 @@ RESULTS_DIR.mkdir(exist_ok=True)
 # ---------------- LOAD CSV ----------------
 df = pd.read_csv("AURIX_completed.csv")
 
-# Anchor column (8th column = index 7)
+# Anchor = 8th column (Lines of Code)
 anchor_index = 7
+
+# 🔥 IMPORTANT: Fix dtype issues
+for col in df.columns[anchor_index+1:]:
+    df[col] = df[col].astype(object)
 
 
 # ---------------- RULE ENGINE ----------------
@@ -29,14 +33,14 @@ def run_rule_engine(code: str):
     temp_file.write_text(code, encoding="utf-8")
 
     subprocess.run([
-    "python",
-    str(ROOT.parent / "detect.py"),
-    str(temp_file),
-    "--only-issues",
-    "--compact",
-    "-o",
-    str(out_file)
-], cwd=ROOT.parent)
+        "python",
+        str(ROOT.parent / "detect.py"),
+        str(temp_file),
+        "--only-issues",
+        "--compact",
+        "-o",
+        str(out_file)
+    ], cwd=ROOT.parent)
 
     if not out_file.exists():
         return []
@@ -95,9 +99,13 @@ for idx, row in df.iterrows():
     if not code:
         continue
 
-    print(f"Processing row {idx}...")
+    print(f"[{idx+1}/{len(df)}] Processing...")
 
-    issues = run_rule_engine(code)
+    try:
+        issues = run_rule_engine(code)
+    except Exception as e:
+        print(f"❌ Error at row {idx}: {e}")
+        continue
 
     total = len(issues)
     critical = high = medium = low = 0
@@ -134,7 +142,7 @@ for idx, row in df.iterrows():
         high,
         medium,
         low,
-        ", ".join(vuln_types),
+        ", ".join(vuln_types) if vuln_types else None,  # 🔥 FIX
         round(density, 3),
         is_secure,
         severity_score
@@ -144,15 +152,25 @@ for idx, row in df.iterrows():
     for i, col in enumerate(target_cols):
         col_index = anchor_index + 1 + i
 
+        value = values[i]
+
+        # 🔥 FIX: prevent dtype crash
+        if value == "" or value is None:
+            value = None
+
         if col_index < len(df.columns):
-            df.iat[idx, col_index] = values[i]
+            df.iat[idx, col_index] = value
         else:
-            # create column if missing
             df[col] = None
-            df.at[idx, col] = values[i]
+            df.at[idx, col] = value
+
+    # 🔥 Save progress every 50 rows
+    if idx % 50 == 0:
+        df.to_csv("AURIX_partial.csv", index=False)
+        print("💾 Partial save done...")
 
 
-# ---------------- SAVE OUTPUT ----------------
+# ---------------- SAVE FINAL OUTPUT ----------------
 df.to_csv("AURIX_completed_filled.csv", index=False)
 
 print("\n✅ DONE: AURIX_completed_filled.csv generated successfully")

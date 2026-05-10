@@ -1,0 +1,14 @@
+{
+    "test_real_vuln.py": [
+        {
+            "line": 3,
+            "rules": [
+                "SQL-PARAMETRIZED-QUERY-002"
+            ],
+            "categories": [
+                "INJC"
+            ],
+            "code": "query = \"SELECT * FROM users WHERE id = \" + user_input"
+        }
+    ]
+}

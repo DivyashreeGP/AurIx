@@ -22,8 +22,8 @@ COPY . /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install AI engine dependencies if they exist
-RUN if [ -f AI-Reasoning-Engine/ai_security_analyzer/requirements.txt ]; then \
-    pip install --no-cache-dir -r AI-Reasoning-Engine/ai_security_analyzer/requirements.txt; \
+RUN if [ -f gemini_ai_reasoning_engine/requirements.txt ]; then \
+    pip install --no-cache-dir -r gemini_ai_reasoning_engine/requirements.txt; \
 fi
 
 # Create results directory
