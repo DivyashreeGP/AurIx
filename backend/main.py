@@ -213,13 +213,13 @@ def analyze_with_ai(request: AnalysisRequest):
             "analysis": "No vulnerabilities detected.",
             "secure_code": request.code,
             "explanation": "Your code appears secure.",
-            "source": "gemini_ai"
+            "source": "openai"
         }
 
     if not LOCAL_AI_AVAILABLE:
         raise HTTPException(
             status_code=500,
-            detail="AI Engine not available. No fix available from our end."
+            detail="OpenAI Engine not available. No fix available from our end."
         )
 
     vulnerabilities = [
@@ -271,7 +271,8 @@ def analyze_with_ai(request: AnalysisRequest):
             "analysis": explanation_response,
             "secure_code": secure_code_response,
             "explanation": detailed_explanation,
-            "source": "gemini_ai"
+            "issues": request.issues,
+            "source": "openai"
         }
 
     except HTTPException:

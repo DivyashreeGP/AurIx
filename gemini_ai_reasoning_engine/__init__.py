@@ -1,1 +1,1 @@
-# Gemini AI Reasoning Engine Package
+# OpenAI reasoning engine package wrapper

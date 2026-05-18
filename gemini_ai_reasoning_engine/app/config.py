@@ -10,10 +10,12 @@ env_path = BASE_DIR / ".env"
 load_dotenv(env_path)
 
 # 🔐 API Key (Optional)
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
-if not GEMINI_API_KEY:
-    GEMINI_API_KEY = None
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY") or os.getenv("GEMINI_API_KEY")
+if not OPENAI_API_KEY:
+    OPENAI_API_KEY = None
 
 # 🤖 Model Configuration (Optional override)
-MODEL_NAME = os.getenv("MODEL_NAME", "gemini-2.5-flash")
+OPENAI_MODEL_NAME = os.getenv("OPENAI_MODEL_NAME", "gpt-3.5-turbo-16k")
+
+# Optional base URL for OpenAI-compatible endpoints
+OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1")

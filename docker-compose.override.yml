@@ -1,0 +1,22 @@
+version: '3.8'
+
+# Development override configuration
+# This file is automatically merged with docker-compose.yml when running docker-compose
+
+services:
+  aurix-backend:
+    # Mount source code for development (hot reload)
+    volumes:
+      - .:/app
+      - ./results:/app/results
+      - ./temp_files:/app/temp_files
+    environment:
+      - PYTHONPATH=/app
+      - DEBUG=1
+      # AI Configuration (choose one)
+      - AI_PROVIDER=${AI_PROVIDER:-gemini}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4}
+    # Override command for development with reload
+    command: ["python", "-m", "uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

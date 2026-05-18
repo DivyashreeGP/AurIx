@@ -585,6 +585,7 @@
         "pattern_not": [
             "def[ ]*encode\\(|def[ ]*decode\\(|jwt\\.decode\\(",
             "try\\:.*.encode\\(.*except|try\\:.*.decode\\(.*except",
+            "bcrypt\\.hashpw\\([^)]*\\.encode\\(",
             "#.*"
         ],
         "find_var": "",

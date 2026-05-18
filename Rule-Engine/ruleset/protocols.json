@@ -1095,6 +1095,7 @@
         "pattern_not": [
             "[a-zA-Z0-9_.]+open\\(",
             "open\\([ ]*(\"|')[ ]*[a-zA-Z0-9_\\/\\.]*(\"|')[ ]*\\)\\.read\\(",
+            "open\\([A-Za-z_][A-Za-z0-9_]*\\)\\.read\\(",
             "[a-zA-Z0-9_]*[ ]*=[ ]*\\{.*\\}.*if[ ]*[a-zA-Z0-9_]*[ ]*(in|not in)[ ]*[a-zA-Z0-9_]*.*open\\(.*\\)\\.read\\(",
             "os\\.path\\.exists\\(",
             "os\\.path\\.isfile\\(",

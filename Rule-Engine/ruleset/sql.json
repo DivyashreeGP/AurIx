@@ -7,8 +7,7 @@
         "pattern_not": [
             "(SELECT|DELETE|UPDATE|INSERT).* \\?, \\([ ]*VAR_PLACEHOLDER[ ]*\\)",
             "(SELECT|DELETE|UPDATE|INSERT).* \\?\".*cur\\.execute\\(.*\\([ ]*\\w+[ ]*\\,[ ]*\\)\\)",
-            "cur\\.execute\\(w+,[ ]*\\(VAR_PLACEHOLDER|cursor\\.execute\\(w+,[ ]*\\(VAR_PLACEHOLDER",
-            "#.*"
+            "cur\\.execute\\(w+,[ ]*\\(VAR_PLACEHOLDER|cursor\\.execute\\(w+,[ ]*\\(VAR_PLACEHOLDER"
         ],
         "find_var": "input\\\\(|(flask\\\\.)?request\\\\.(args\\\\.get|args\\\\.POST)\\\\(|(flask\\\\.)?request\\\\.(args|POST|GET|files|form|data|headers|params|base_url|authorization|cookies|endpoint|host|host_url|module|path|query_strings|url|values|view_args)\\\\[",
         "remediation": []
@@ -19,8 +18,7 @@
         "vulnerabilities": "INJC",
         "pattern": "sql\\.parse\\(",
         "pattern_not": [
-            "re\\.sub\\(|escape\\(",
-            "#.*"
+            "re\\.sub\\(|escape\\("
         ],
         "find_var": "",
         "remediation": []
@@ -34,15 +32,7 @@
             "\\.execute\\([ ]*(f?[\"']|f\")(SELECT|DELETE|UPDATE|INSERT).*(%s|\\?).*?(f?[\"']|f\")[ ]*,[ ]*\\([^)]*?\\)[ ]*\\)",
             "\\.execute\\([ ]*[a-zA-Z0-9_]*[ ]*,[ ]*\\([ ]*[a-zA-Z0-9_]*[ ]*,",
             "=[ ]*(f?[\"']|f\")(SELECT|DELETE|UPDATE|INSERT).*escape\\(",
-            "\\.replace\\(",
-            "%s\"[ ]*,[ ]*\\(",
-            "%s\",[ ]*\\(",
-            "#.*",
-            "SELECT.*\\?",
-            "INSERT.*\\?",
-            "UPDATE.*\\?",
-            "DELETE.*\\?",
-            "execute.*SELECT.*\\?"
+            "\\.replace\\("
         ],
         "find_var": "",
         "remediation": []
@@ -53,8 +43,7 @@
         "vulnerabilities": "INJC",
         "pattern": "sqlparse\\.format\\(",
         "pattern_not": [
-            "sqlparse\\.format\\(.*strip_comments[ ]*=[ ]*False",
-            "#.*"
+            "sqlparse\\.format\\(.*strip_comments[ ]*=[ ]*False"
         ],
         "find_var": "",
         "remediation": []
@@ -65,8 +54,7 @@
         "vulnerabilities": "SDIF",
         "pattern": "MySQLdb\\.connect\\(",
         "pattern_not": [
-            "os\\.getenv\\(",
-            "#.*"
+            "os\\.getenv\\("
         ],
         "find_var": "",
         "remediation": []
@@ -77,8 +65,7 @@
         "vulnerabilities": "SDIF",
         "pattern": "mysql\\.connector\\.connect\\(",
         "pattern_not": [
-            "ssl_disabled[ ]*=[ ]*False",
-            "#.*"
+            "ssl_disabled[ ]*=[ ]*False"
         ],
         "find_var": "",
         "remediation": []

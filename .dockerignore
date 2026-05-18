@@ -1,6 +1,9 @@
+# Environment files (may contain secrets)
+.env
+.env.local
+.env.*.local
+
 # Git
-.git
-.gitignore
 
 # Python
 __pycache__
@@ -18,6 +21,7 @@ venv/
 env/
 ENV/
 .venv
+aurix_env/
 
 # IDE
 .vscode
@@ -25,7 +29,10 @@ ENV/
 *.swp
 *.swo
 *~
+
+# OS
 .DS_Store
+Thumbs.db
 
 # Node modules (for extension)
 vscode_extension/vs-extension/node_modules/
@@ -39,13 +46,40 @@ temp_files/
 
 # Results (will be mounted as volume)
 results/
+results_eval/
+testing_results/
+{results_dir}/
 
 # Test/debug files
 test_*.py
 debug_*.py
 comprehensive_test.py
+tmp_detect_test.txt
 
 # Documentation
 *.md
 PROOF_FILES_INDEX.md
+EVALUATION_README.md
+README.md
+START_HERE.md
+
+# Evaluation and testing directories
+Evaluation/
+temp_eval/
+Testing/
+tests/
+
+# Coverage reports
+.coverage
+coverage.json
+
+# Docker files (not needed in container)
+docker-start.bat
+docker-start.sh
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# VS Code extension (not needed for backend)
+vscode_extension/
 TESTING_EVALUATION_COMPLETE.md

@@ -12,12 +12,16 @@ services:
     volumes:
       - ./results:/app/results
       - ./temp_files:/app/temp_files
-      - ./Rule_Engine/ruleset:/app/Rule_Engine/ruleset:ro
+      - ./Rule-Engine:/app/Rule-Engine:ro
+      - ./scanner:/app/scanner:ro
     environment:
       - PYTHONUNBUFFERED=1
-      - OLLAMA_ENDPOINT=http://ollama:11434
-    depends_on:
-      - ollama
+      - PYTHONPATH=/app
+      # AI Configuration (choose one)
+      - AI_PROVIDER=${AI_PROVIDER:-gemini}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4}
     networks:
       - aurix-network
     restart: unless-stopped
@@ -26,31 +30,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 5s
-
-  # Optional: Ollama Service for Local AI (LLM)
-  ollama:
-    image: ollama/ollama:latest
-    container_name: aurix-ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_data:/root/.ollama
-    environment:
-      - OLLAMA_HOST=0.0.0.0:11434
-    networks:
-      - aurix-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "ollama", "--version"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      start_period: 30s
 
 networks:
   aurix-network:
     driver: bridge
-
-volumes:
-  ollama_data:
-    driver: local

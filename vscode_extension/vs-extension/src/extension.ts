@@ -195,25 +195,41 @@ const parseMarkdownToHtml = (text: string): string => {
     return txt.replace(/[&<>"']/g, m => map[m]);
   };
 
-  let html = escapeHtmlStr(text);
-  
-  // Headers: ### text → <h3>text</h3>
-  html = html.replace(/^### (.*?)$/gm, '<h4 style="margin-top: 12px; margin-bottom: 6px; font-weight: 600; font-size: 13px;">$1</h4>');
-  html = html.replace(/^## (.*?)$/gm, '<h3 style="margin-top: 12px; margin-bottom: 6px; font-weight: 600; font-size: 14px;">$1</h3>');
-  
-  // Bold: **text** → <strong>text</strong>
-  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  
-  // Italic: *text* → <em>text</em>
-  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  
-  // Code: `text` → <code>text</code>
-  html = html.replace(/`(.*?)`/g, '<code style="background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 3px; font-size: 11px;">$1</code>');
-  
-  // Collapse multiple newlines into single line break
-  html = html.replace(/(\n\s*)+/g, '<br/>');
-  
-  return html;
+  const codeBlocks: string[] = [];
+  const placeholder = '%%CODEBLOCK%%';
+
+  const textWithPlaceholders = text.replace(/```(?:[^\n]*)\n([\s\S]*?)```/g, (_match, content) => {
+    codeBlocks.push(escapeHtmlStr(content.replace(/\r\n/g, '\n').trimEnd()));
+    return `${placeholder}${codeBlocks.length - 1}%%`;
+  });
+
+  let html = escapeHtmlStr(textWithPlaceholders);
+
+  html = html.replace(/^Security Vulnerability \(Line (\d+)\)$/gm, '<h2 class="md-heading md-heading-1">Security Vulnerability (Line $1)</h2>');
+  html = html.replace(/^Why it is detected$/gm, '<h3 class="md-heading md-heading-2">Reason</h3>');
+  html = html.replace(/^What it can do$/gm, '<h3 class="md-heading md-heading-2">Impact</h3>');
+  html = html.replace(/^Effect of not fixing$/gm, '<h3 class="md-heading md-heading-2">Risk</h3>');
+  html = html.replace(/^How to fix$/gm, '<h3 class="md-heading md-heading-2">Remediation</h3>');
+
+  html = html.replace(/^# (.*)$/gm, '<h2 class="md-heading md-heading-1">$1</h2>');
+  html = html.replace(/^## (.*)$/gm, '<h3 class="md-heading md-heading-2">$1</h3>');
+  html = html.replace(/^### (.*)$/gm, '<h4 class="md-heading md-heading-3">$1</h4>');
+  html = html.replace(/^-{3,}$/gm, '<div class="md-divider"></div>');
+  html = html.replace(/`([^`]+)`/g, '<code class="md-inline-code">$1</code>');
+
+  const blocks = html.split(/\n{2,}/g).map(block => {
+    const trimmed = block.trim();
+    if (!trimmed) return '';
+    if (/^<h[2-4] class=/.test(trimmed)) return trimmed;
+    if (trimmed === '<div class="md-divider"></div>') return trimmed;
+    if (trimmed.startsWith(placeholder) && trimmed.endsWith('%%')) return trimmed;
+    return `<p class="md-paragraph">${trimmed.replace(/\n/g, ' ')}</p>`;
+  }).join('\n');
+
+  return blocks.replace(/%%CODEBLOCK%%(\d+)%%/g, (_match, index) => {
+    const code = codeBlocks[Number(index)] || '';
+    return `<pre class="md-code-block"><code>${code}</code></pre>`;
+  });
 };
 
 const getCommonStyles = (): string => {
@@ -322,6 +338,58 @@ const getCommonStyles = (): string => {
     }
     .explanation-box strong { color: #4CAF50; font-weight: 600; }
 
+    .md-heading {
+      margin: 18px 0 8px;
+      line-height: 1.2;
+    }
+    .md-heading-1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #4CAF50;
+    }
+    .md-heading-2 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #3B8E3E;
+    }
+    .md-heading-3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2E6A2E;
+    }
+    .md-paragraph {
+      margin: 0 0 12px;
+      color: var(--vscode-editor-foreground);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .md-inline-code {
+      background: rgba(0,0,0,0.08);
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 11px;
+    }
+    .md-code-block {
+      background: rgba(0,0,0,0.04);
+      border: 1px solid var(--vscode-panel-border);
+      border-radius: 6px;
+      padding: 12px;
+      margin: 12px 0;
+      overflow-x: auto;
+    }
+    .md-code-block code {
+      display: block;
+      white-space: pre;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 11px;
+      color: var(--vscode-editor-foreground);
+    }
+    .md-divider {
+      margin: 18px 0;
+      border-top: 1px solid rgba(76, 175, 80, 0.25);
+    }
+
     .no-ai-section {
       background: rgba(255, 152, 0, 0.05);
       border-left: 4px solid #FF9800;
@@ -362,7 +430,7 @@ const getTabbedPanelContent = (code: string, issues: any[], analysis: any | null
     : '<div class="no-ai-section">No explanation available yet.</div>';
 
   const aiContentHtml = loading
-    ? `<div class="no-ai-section">⏳ <strong>AI analysis is in progress.</strong> Please wait while Gemini generates secure code and reasoning.</div>`
+    ? `<div class="no-ai-section">⏳ <strong>AI analysis is in progress.</strong> Please wait while the AI engine generates secure code fixes and security analysis.</div>`
     : analysis
       ? `
         <div class="section">
